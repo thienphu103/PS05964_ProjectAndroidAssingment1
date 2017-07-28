@@ -23,11 +23,11 @@ Button btn;
         lvSinhVien = (ListView) findViewById(R.id.listViewSinhVien);
 
         arrayList = new ArrayList<>();
-        arrayList.add(new SinhVien("Nguyễn Trường An", "PS06077", R.drawable.person));
-        arrayList.add(new SinhVien("Đặng Phạm Nhật Thanh", "PS06077", R.drawable.person));
-        arrayList.add(new SinhVien("Lê Công Danh", "PS06077", R.drawable.person));
-        arrayList.add(new SinhVien("Lê Vương Thiện Phú", "PS06077", R.drawable.person));
-        arrayList.add(new SinhVien("Truong Nhat Nam", "PS06077", R.drawable.person));
+        arrayList.add(new SinhVien("Nguyễn Trường An", "PS06077", R.drawable.studenticon));
+        arrayList.add(new SinhVien("Đặng Phạm Nhật Thanh", "PS06077", R.drawable.studenticon));
+        arrayList.add(new SinhVien("Lê Công Danh", "PS06077", R.drawable.studenticon));
+        arrayList.add(new SinhVien("Lê Vương Thiện Phú", "PS06077", R.drawable.studenticon));
+        arrayList.add(new SinhVien("Truong Nhat Nam", "PS06077", R.drawable.studenticon));
 
 
 

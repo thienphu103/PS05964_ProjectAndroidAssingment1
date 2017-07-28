@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class ListViewClass extends AppCompatActivity {
+public class ListViewClass extends AppCompatActivity  {
     Button btn;
     ListView lvSinhVien;
     private ArrayList<SinhVien> arrayList;
@@ -18,30 +18,37 @@ public class ListViewClass extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_view_class);
+        setContentView(R.layout.activity_list_view_student);
 
         lvSinhVien = (ListView) findViewById(R.id.listViewSinhVien);
 
         arrayList = new ArrayList<>();
-        arrayList.add(new SinhVien("Lập Trình Mobile", "PT12318", R.drawable.person));
-        arrayList.add(new SinhVien("Thiết Kế Đồ Họa", "PT12317", R.drawable.person));
-        arrayList.add(new SinhVien("Thiết Kế Web", "PT12317", R.drawable.person));
-        arrayList.add(new SinhVien("Ứng Dụng Phần Mềm", "PT12317", R.drawable.person));
+        arrayList.add(new SinhVien("Lập Trình Mobile", "PT12318", R.drawable.classicon));
+        arrayList.add(new SinhVien("Thiết Kế Đồ Họa", "PT12317", R.drawable.classicon));
+        arrayList.add(new SinhVien("Thiết Kế Web", "PT12317", R.drawable.classicon));
+        arrayList.add(new SinhVien("Ứng Dụng Phần Mềm", "PT12317", R.drawable.classicon));
+
 
 
         adapterLop = new AdapterSinhVien(this, R.layout.info_sv, arrayList);
 
         lvSinhVien.setAdapter(adapterLop);
-        btn = (Button) findViewById(R.id.btnAddClass);
+
+        btn = (Button) findViewById(R.id.btnAddStu);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Dialog dialog = new Dialog(ListViewClass.this);
-                dialog.setTitle("Add Class");
+                dialog.setTitle("Add Student");
                 dialog.setContentView(R.layout.activity_dialog);
                 dialog.show();
             }
         });
     }
+
 }
+
+
+
+
 
