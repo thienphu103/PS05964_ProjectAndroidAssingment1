@@ -7,16 +7,16 @@
     tools:context=".ListViewStudent">
 
     <ListView
-        android:id="@+id/listViewSinhVien"
-        android:layout_width="362dp"
-        android:layout_height="359dp"
+        android:id="@+id/ListViewClass"
+        android:layout_width="357dp"
+        android:layout_height="338dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteY="208dp"></ListView>
+        tools:layout_editor_absoluteY="229dp"></ListView>
 
     <Button
         android:id="@+id/btnAddClass"
@@ -80,7 +80,7 @@
         android:layout_marginBottom="91dp"
         app:layout_constraintBottom_toTopOf="@+id/listViewSinhVien"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="59dp"
         app:layout_constraintVertical_bias="0.836" />
 
 </android.support.constraint.ConstraintLayout>

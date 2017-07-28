@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 
 public class NavigationActivity extends AppCompatActivity
@@ -39,22 +38,6 @@ public class NavigationActivity extends AppCompatActivity
     }
 
     public void OnClick() {
-        btn1 = (Button) findViewById(R.id.btnStarStu);
-        btn2 = (Button) findViewById(R.id.btnStarClass);
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent =new Intent(NavigationActivity.this,ListViewStudent.class);
-                startActivity(intent);
-            }
-        });
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent =new Intent(NavigationActivity.this,ListViewClass.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -83,7 +66,7 @@ public class NavigationActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent =new Intent(NavigationActivity.this,MainActivity.class);
+            Intent intent =new Intent(NavigationActivity.this,MainActivityLogin.class);
             startActivity(intent);
             return true;
         }

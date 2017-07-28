@@ -31,6 +31,7 @@
             tools:ignore="ContentDescription" />
 
         <EditText
+            android:textColor="@color/colorDarkBlue"
             android:id="@+id/txtUser"
             android:layout_width="249dp"
             android:layout_height="wrap_content"
@@ -47,9 +48,13 @@
             tools:layout_editor_absoluteX="68dp" />
 
         <EditText
+            android:textColor="@color/colorDarkBlue"
             android:id="@+id/txtPass"
             android:layout_width="248dp"
             android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/txtUser"
+            android:layout_below="@+id/txtTest1"
+            android:layout_marginTop="16dp"
             android:drawableLeft="@drawable/pass"
             android:ems="10"
             android:hint="Password"
@@ -57,36 +62,22 @@
             android:text=""
             tools:ignore="HardcodedText,LabelFor,RtlHardcoded"
             tools:layout_editor_absoluteX="68dp"
-            tools:layout_editor_absoluteY="218dp"
-            android:layout_below="@+id/txtTest1"
-            android:layout_alignStart="@+id/txtUser" />
-
-        <EditText
-            android:id="@+id/txtRePass"
-            android:layout_width="248dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/pass"
-            android:ems="10"
-            android:hint="Re-Password"
-            android:inputType="textPassword"
-            android:text=""
-            tools:ignore="HardcodedText,LabelFor,RtlHardcoded"
-            tools:layout_editor_absoluteX="68dp"
-            tools:layout_editor_absoluteY="218dp"
-            android:layout_below="@+id/txtTest2"
-            android:layout_alignEnd="@+id/txtUser" />
+            tools:layout_editor_absoluteY="218dp" />
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="112dp"
             android:layout_height="wrap_content"
-            android:text="Register"
+            android:background="#0E3047"
+            android:text="Login"
+            android:textColor="@color/colorWhite"
             tools:ignore="HardcodedText"
             tools:layout_editor_absoluteX="136dp"
             tools:layout_editor_absoluteY="274dp"
-            android:layout_marginTop="39dp"
-            android:layout_below="@+id/txtRePass"
-            android:layout_centerHorizontal="true" />
+            android:layout_below="@+id/txtTest2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="13dp" />
+
 
         <TextView
             android:id="@+id/txtTest1"
@@ -106,13 +97,19 @@
             android:layout_below="@+id/txtPass"
             android:layout_marginTop="13dp"
             android:text="" />
-        <TextView
+
+        <Button
             android:id="@+id/txtTest3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:layout_below="@+id/txtRePass"
-            android:layout_alignStart="@+id/txtTest2" />
+            android:layout_marginTop="24dp"
+            android:background="@null"
+            android:textColor="@color/colorBlue"
+            android:text="Not a member? Sign up now !"
+            android:textSize="10dp"
+            android:textStyle="normal"
+            android:layout_below="@+id/btnLogin"
+            android:layout_centerHorizontal="true" />
 
 
     </RelativeLayout>

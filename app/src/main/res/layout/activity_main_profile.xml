@@ -13,7 +13,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
 
         <ImageView
@@ -27,66 +28,92 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/a"
+            app:srcCompat="@drawable/profile"
             tools:ignore="ContentDescription" />
 
-        <EditText
+        <TextView
             android:id="@+id/txtUser"
             android:layout_width="249dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView3"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="35dp"
             android:drawableLeft="@drawable/person"
             android:ems="10"
-            android:hint="Username"
             android:inputType="textPersonName"
-            android:text=""
+            android:text="Lê Vương Thiện Phú"
+            android:textColor="@color/colorDarkBlue"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtPass"
+            tools:ignore="HardcodedText,LabelFor,RtlHardcoded"
+            tools:layout_editor_absoluteX="68dp"
+            android:layout_below="@+id/imageView3"
+            android:layout_alignStart="@+id/txtUser1" />
+
+        <TextView
+            android:id="@+id/txtUser1"
+            android:layout_width="249dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/person"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="01235073206"
+            android:textColor="@color/colorDarkBlue"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtPass"
+            tools:ignore="HardcodedText,LabelFor,RtlHardcoded"
+            tools:layout_editor_absoluteX="68dp"
+            android:layout_alignTop="@+id/txtTest1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="9dp" />
+
+        <TextView
+            android:id="@+id/txtUser2"
+            android:layout_width="249dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtUser1"
+            android:layout_marginTop="19dp"
+            android:drawableLeft="@drawable/person"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="phulvtps05964@fpt.edu.vn"
+            android:textColor="@color/colorDarkBlue"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtPass"
+            tools:ignore="HardcodedText,LabelFor,RtlHardcoded"
+            tools:layout_editor_absoluteX="68dp"
+            android:layout_alignEnd="@+id/txtUser1" />
+
+        <TextView
+            android:id="@+id/txtUser3"
+            android:layout_width="249dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/txtUser2"
+            android:layout_below="@+id/txtUser2"
+            android:layout_marginTop="19dp"
+            android:drawableLeft="@drawable/person"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="User Type: Administrator"
+            android:textColor="@color/colorDarkBlue"
+            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/txtPass"
             tools:ignore="HardcodedText,LabelFor,RtlHardcoded"
             tools:layout_editor_absoluteX="68dp" />
 
-        <EditText
-            android:id="@+id/txtPass"
-            android:layout_width="248dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/pass"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:text=""
-            tools:ignore="HardcodedText,LabelFor,RtlHardcoded"
-            tools:layout_editor_absoluteX="68dp"
-            tools:layout_editor_absoluteY="218dp"
-            android:layout_below="@+id/txtTest1"
-            android:layout_alignStart="@+id/txtUser" />
-
-        <EditText
-            android:id="@+id/txtRePass"
-            android:layout_width="248dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/pass"
-            android:ems="10"
-            android:hint="Re-Password"
-            android:inputType="textPassword"
-            android:text=""
-            tools:ignore="HardcodedText,LabelFor,RtlHardcoded"
-            tools:layout_editor_absoluteX="68dp"
-            tools:layout_editor_absoluteY="218dp"
-            android:layout_below="@+id/txtTest2"
-            android:layout_alignEnd="@+id/txtUser" />
 
         <Button
             android:id="@+id/btnLogin"
-            android:layout_width="112dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Register"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="51dp"
+            android:background="#0E3047"
+            android:text="Update "
+            android:textColor="@color/colorWhite"
             tools:ignore="HardcodedText"
             tools:layout_editor_absoluteX="136dp"
-            tools:layout_editor_absoluteY="274dp"
-            android:layout_marginTop="39dp"
-            android:layout_below="@+id/txtRePass"
-            android:layout_centerHorizontal="true" />
+            tools:layout_editor_absoluteY="274dp" />
+
 
         <TextView
             android:id="@+id/txtTest1"
@@ -106,13 +133,6 @@
             android:layout_below="@+id/txtPass"
             android:layout_marginTop="13dp"
             android:text="" />
-        <TextView
-            android:id="@+id/txtTest3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:layout_below="@+id/txtRePass"
-            android:layout_alignStart="@+id/txtTest2" />
 
 
     </RelativeLayout>

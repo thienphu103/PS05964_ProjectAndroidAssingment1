@@ -112,7 +112,7 @@ public class SubActivity extends AppCompatActivity {
                 }
                 if ((text.length()<16&&text.length()>1) && (pass.equalsIgnoreCase(repass) &&!(repass.equals("")&&pass.equals("")))){
                     Toast.makeText(SubActivity.this, "Register Ok", Toast.LENGTH_LONG).show();
-                    Intent intent =new Intent(SubActivity.this,MainActivity.class);
+                    Intent intent =new Intent(SubActivity.this,MainActivityLogin.class);
                     startActivity(intent);
                 }
 

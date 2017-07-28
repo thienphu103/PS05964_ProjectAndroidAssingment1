@@ -18,12 +18,12 @@ public class AdapterLop extends BaseAdapter {
 
     Context context;
     int layout;
-    List<SinhVien> sinhVienList;
+    List<SinhVien> LopList;
 
     public AdapterLop(Context context, int layout, List<SinhVien> sinhVienList) {
         this.context = context;
         this.layout = layout;
-        this.sinhVienList = sinhVienList;
+        this.LopList = sinhVienList;
     }
 
     public Context getContext() {
@@ -43,16 +43,16 @@ public class AdapterLop extends BaseAdapter {
     }
 
     public List<SinhVien> getSinhVienList() {
-        return sinhVienList;
+        return LopList;
     }
 
     public void setSinhVienList(List<SinhVien> sinhVienList) {
-        this.sinhVienList = sinhVienList;
+        this.LopList = sinhVienList;
     }
 
     @Override
     public int getCount() {
-        return sinhVienList.size();
+        return LopList.size();
     }
 
     @Override
@@ -91,7 +91,7 @@ public class AdapterLop extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        SinhVien sinhVien = sinhVienList.get(position);
+        SinhVien sinhVien = LopList.get(position);
 
         viewHolder.txtName.setText(sinhVien.getName());
         viewHolder.txtId.setText(sinhVien.getId());
