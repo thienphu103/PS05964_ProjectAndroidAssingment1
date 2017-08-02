@@ -91,7 +91,7 @@ public class TabListViewSV extends Fragment {
         while (cursor.moveToNext()) {
             userdb = cursor.getString(1);
             mssvdb = cursor.getString(2);
-            arrayList.add(new SinhVien(userdb, mssvdb, 0));
+            arrayList.add(new SinhVin(userdb, mssvdb, 0));
         }
 
     }
