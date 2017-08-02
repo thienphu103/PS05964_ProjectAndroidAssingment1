@@ -28,7 +28,7 @@
         android:drawableLeft="@drawable/pass"
         android:ems="10"
         android:hint="Student Code"
-        android:inputType="textPassword"
+        android:inputType="textPersonName"
         android:text=""/>
 
 <LinearLayout
