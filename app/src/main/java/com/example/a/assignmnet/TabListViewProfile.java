@@ -23,5 +23,6 @@ public class TabListViewProfile extends Fragment {
         View view = inflater.inflate(R.layout.activity_main_profile,container,false);
 
         return view;
+
     }
 }

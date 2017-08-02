@@ -21,8 +21,20 @@
             android:name=".NavigationActivity"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".ListViewStudent"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".ListViewStudent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ListViewClass"></activity>
         <activity android:name=".Splashscreen">
             <intent-filter>
@@ -32,6 +44,7 @@
             </intent-filter>
 
         </activity>
+
     </application>
 
 </manifest>
