@@ -1,4 +1,4 @@
-package com.example.a.assignmnet;
+package com.example.a.assignmnet.Main_Screen;
 
 
 import android.content.DialogInterface;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.a.assignmnet.R;
 
 
 public class MainActivityLogin extends AppCompatActivity {

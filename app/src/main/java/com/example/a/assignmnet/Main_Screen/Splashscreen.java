@@ -1,9 +1,11 @@
-package com.example.a.assignmnet;
+package com.example.a.assignmnet.Main_Screen;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.example.a.assignmnet.R;
 
 public class Splashscreen extends Activity {
 

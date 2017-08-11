@@ -1,4 +1,4 @@
-package com.example.a.assignmnet;
+package com.example.a.assignmnet.TabList_SQLite;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.example.a.assignmnet.R;
 
 /**
  * Created by User on 2/28/2017.

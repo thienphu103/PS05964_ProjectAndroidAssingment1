@@ -1,4 +1,4 @@
-package com.example.a.assignmnet;
+package com.example.a.assignmnet.Main_Screen;
 
 
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.a.assignmnet.R;
 
 
 public class SubActivity extends AppCompatActivity {

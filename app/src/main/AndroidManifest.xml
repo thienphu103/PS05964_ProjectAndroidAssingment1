@@ -9,34 +9,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivityLogin">
+        <activity android:name=".Main_Screen.MainActivityLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SubActivity"></activity>
+        <activity android:name=".Main_Screen.SubActivity"></activity>
         <activity
-            android:name=".NavigationActivity"
+            android:name=".Main_Screen.NavigationActivity"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".ListViewStudent">
+        <activity android:name=".ListView_NotUsed.ListViewStudent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".Main_Screen.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListViewClass"></activity>
-        <activity android:name=".Splashscreen">
+        <activity android:name=".ListView_NotUsed.ListViewClass"></activity>
+        <activity android:name=".Main_Screen.Splashscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

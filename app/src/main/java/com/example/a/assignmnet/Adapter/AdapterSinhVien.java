@@ -1,4 +1,4 @@
-package com.example.a.assignmnet;
+package com.example.a.assignmnet.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.a.assignmnet.R;
+import com.example.a.assignmnet.Class.SinhVien;
 
 import java.util.List;
 

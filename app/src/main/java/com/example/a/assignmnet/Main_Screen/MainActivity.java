@@ -1,21 +1,32 @@
-package com.example.a.assignmnet;
+package com.example.a.assignmnet.Main_Screen;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import com.example.a.assignmnet.Adapter.SectionsPageAdapter;
+import com.example.a.assignmnet.R;
+import com.example.a.assignmnet.TabList_SQLite.TabListViewClass;
+import com.example.a.assignmnet.TabList_SQLite.TabListViewProfile;
+import com.example.a.assignmnet.TabList_SQLite.TabListViewSV;
 
-public class NavigationActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    Button btn1;
-    Button btn2;
+
+    private static final String TAG = "MainActivity";
+
+    private SectionsPageAdapter mSectionsPageAdapter;
+
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +34,6 @@ public class NavigationActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -34,11 +44,28 @@ public class NavigationActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        OnClick();
+
+        Log.d(TAG, "onCreate: Starting.");
+
+        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        setupViewPager(mViewPager);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+
     }
 
-    public void OnClick() {
+    private void setupViewPager(ViewPager viewPager) {
+        SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
+        adapter.addFragment(new TabListViewSV(), "Student");
+        adapter.addFragment(new TabListViewClass(), "Class");
+        adapter.addFragment(new TabListViewProfile(), "Profile");
+        viewPager.setAdapter(adapter);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -66,7 +93,7 @@ public class NavigationActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent =new Intent(NavigationActivity.this,MainActivityLogin.class);
+            Intent intent =new Intent(MainActivity.this,MainActivityLogin.class);
             startActivity(intent);
             return true;
         }
@@ -81,11 +108,11 @@ public class NavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Intent intent =new Intent(NavigationActivity.this,ListViewStudent.class);
-            startActivity(intent);
+//            Intent intent =new Intent(MainActivity.this,TabListViewSV.class);
+//            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-            Intent intent =new Intent(NavigationActivity.this,ListViewClass.class);
-            startActivity(intent);
+//            Intent intent =new Intent(MainActivity.this,TabListViewClass.class);
+//            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

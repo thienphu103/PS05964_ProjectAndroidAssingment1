@@ -1,10 +1,14 @@
-package com.example.a.assignmnet;
+package com.example.a.assignmnet.ListView_NotUsed;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.example.a.assignmnet.Adapter.AdapterSinhVien;
+import com.example.a.assignmnet.SQL.SQLite;
+import com.example.a.assignmnet.Class.SinhVien;
 
 import java.util.ArrayList;
 

@@ -1,15 +1,15 @@
-package com.example.a.assignmnet;
+package com.example.a.assignmnet.Class;
 
 /**
  * Created by namtn on 25-Jul-17.
  */
 
-public class Lop {
+public class SinhVien {
     private String name;
     private String id;
     private int urlHinh;
 
-    public Lop(String name, String id, int urlHinh) {
+    public SinhVien(String name, String id, int urlHinh) {
         this.name = name;
         this.id = id;
         this.urlHinh = urlHinh;

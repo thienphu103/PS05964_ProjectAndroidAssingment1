@@ -1,4 +1,4 @@
-package com.example.a.assignmnet;
+package com.example.a.assignmnet.TabList_SQLite;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.example.a.assignmnet.Adapter.AdapterLop;
+import com.example.a.assignmnet.Class.SinhVien;
+import com.example.a.assignmnet.R;
 
 import java.util.ArrayList;
 

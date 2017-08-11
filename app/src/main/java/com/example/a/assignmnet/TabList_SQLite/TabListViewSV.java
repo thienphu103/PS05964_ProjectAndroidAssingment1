@@ -1,4 +1,4 @@
-package com.example.a.assignmnet;
+package com.example.a.assignmnet.TabList_SQLite;
 
 import android.app.Dialog;
 import android.database.Cursor;
@@ -13,6 +13,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.a.assignmnet.Adapter.AdapterSinhVien;
+import com.example.a.assignmnet.Class.SinhVien;
+import com.example.a.assignmnet.R;
+import com.example.a.assignmnet.SQL.SQLite;
+
 import java.util.ArrayList;
 
 /**
@@ -25,14 +30,16 @@ public class TabListViewSV extends Fragment {
     SQLite database;
     EditText user;
     EditText mssv;
+    EditText search;
     Button btnadd;
     String userdb;
     String mssvdb;
     String userdialog;
     String mssvdialog;
-    private Button btnTEST;
+    String txtsearch;
     Button btn;
     Button btn1,btn2;
+    Button btn3;
     ListView LvSinhVien;
     private ArrayList<SinhVien> arrayList;
     private AdapterSinhVien adapterSinhVien;
@@ -58,6 +65,8 @@ public class TabListViewSV extends Fragment {
         btn = (Button) view.findViewById(R.id.btnAddStu);
         btn1 = (Button) view.findViewById(R.id.btnDelStu);
         btn2 = (Button) view.findViewById(R.id.btnUpStu);
+        btn3=(Button) view.findViewById(R.id.btnSearchStu);
+        search=(EditText) view.findViewById(R.id.txtSearch);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,6 +151,13 @@ public class TabListViewSV extends Fragment {
 
             }
         });
+//        btn3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                txtsearch=search.getText().toString();
+//                SearchDataDB();
+//            }
+//        });
         return view;
     }
 
@@ -156,6 +172,17 @@ public class TabListViewSV extends Fragment {
         }
 
     }
+//    final public void SearchDataDB() {
+//        arrayList.clear();
+////Get Database and display
+//        Cursor cursor = database.GetData("SELECT * FROM Sinhvien WHERE Ten='"+txtsearch+"'");
+//        while (cursor.moveToNext()) {
+//            userdb = cursor.getString(1);
+//            mssvdb = cursor.getString(2);
+//            arrayList.add(new SinhVien(userdb, mssvdb, 0));
+//        }
+//
+//    }
 
 
 

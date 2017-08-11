@@ -1,4 +1,4 @@
-package com.example.a.assignmnet;
+package com.example.a.assignmnet.SQL;
 
 import android.content.Context;
 import android.database.Cursor;
