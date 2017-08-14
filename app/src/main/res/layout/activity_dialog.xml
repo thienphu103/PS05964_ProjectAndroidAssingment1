@@ -1,61 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="350dp"
-    android:layout_height="250dp"
+    android:orientation="vertical" android:layout_width="350sp"
+    android:layout_height="match_parent"
     >
+<TextView
+    android:id="@+id/dialogName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Name Book"
+    android:textSize="30sp"
+    android:paddingBottom="20sp"
+    android:gravity="center"/>
     <EditText
-        android:id="@+id/txtUserDialog"
+        android:id="@+id/dialogID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:inputType="number"
+        android:hint="ID"
+        />
+    <EditText
+        android:id="@+id/dialogTILTE"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:hint="Name Sudent"/>
+    <EditText
+        android:id="@+id/dialogAUTHOR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:hint="Class Student"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gender:"
+        android:textSize="20sp"/>
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/imageView3"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="32dp"
-        android:drawableLeft="@drawable/person"
-        android:ems="10"
-        android:hint="Student Name"
-        android:inputType="textPersonName"
-        android:text=""/>
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:id="@+id/radioGroup_character">
 
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            android:id="@+id/radioButton_male"
+            android:layout_marginRight="20sp"
+            android:checked="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:id="@+id/radioButton_female"
+            android:checked="false" />
+    </RadioGroup>
     <EditText
-        android:id="@+id/txtPassDialog"
+        android:id="@+id/dialogPRICE"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:hint="Birthday Year"/>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/txtUser"
-        android:layout_below="@+id/txtTest1"
-        android:drawableLeft="@drawable/pass"
-        android:ems="10"
-        android:hint="Student Code"
-        android:inputType="textPersonName"
-        android:text=""/>
+        android:orientation="horizontal"
+        android:gravity="center">
 
-<LinearLayout
-    android:layout_width="350dp"
-    android:layout_height="wrap_content">
-
-    <Button
-        android:id="@+id/btnAdd1"
-        android:layout_width="112dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtTest2"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="68dp"
-        android:layout_marginStart="40dp"
-        android:layout_toEndOf="@+id/txtTest2"
-        android:text="Add" />
-
-    <Button
-        android:id="@+id/btnAdd2"
-        android:layout_width="112dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtTest2"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="40dp"
-        android:layout_toEndOf="@+id/txtTest2"
-        android:text="Cancel" />
-
-</LinearLayout>
+        <Button
+            android:id="@+id/dialogbtnUP"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/edit"
+            android:text="Update"/>
+        <Button
+            android:id="@+id/dialogbtnDEL"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/del"
+            android:text="Delete"/>
+    </LinearLayout>
+    
 </LinearLayout>

@@ -1,16 +1,22 @@
 package com.example.a.assignmnet.TabList_SQLite;
 
 import android.app.Dialog;
-import android.database.Cursor;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a.assignmnet.Adapter.AdapterSinhVien;
@@ -20,171 +26,263 @@ import com.example.a.assignmnet.SQL.SQLite;
 
 import java.util.ArrayList;
 
-/**
- * Created by User on 2/28/2017.
- */
-
 public class TabListViewSV extends Fragment {
     private static final String TAG = "Tab1Fragment";
-    ListView lvSinhVien;
-    SQLite database;
-    EditText user;
-    EditText mssv;
-    EditText search;
-    Button btnadd;
-    String userdb;
-    String mssvdb;
-    String userdialog;
-    String mssvdialog;
-    String txtsearch;
-    Button btn;
-    Button btn1,btn2;
-    Button btn3;
-    ListView LvSinhVien;
-    private ArrayList<SinhVien> arrayList;
+    ListView listView;
+    public ArrayList<SinhVien> arrayList;
     private AdapterSinhVien adapterSinhVien;
+    Dialog dialog;
+    SQLite database;
+    Button btnadd;
+    EditText edtsearch;
+    TextView txtdialogname;
+    Button btndialogup;
+    Button btnsearch;
+    Button btndialogdel;
+    EditText edtdialogID;
+    EditText edtdialogTilte;
+    EditText edtdialogAuthor;
+    EditText edtdialogPrice;
+    RadioGroup radioGroup;
+    RadioButton radioButtonMale;
+    RadioButton radioButtonFemale;
+    String Gender="";
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_list_view_student, container, false);
-        LvSinhVien = (ListView) view.findViewById(R.id.listViewSinhVien);
-        user = (EditText) view.findViewById(R.id.txtUserDialog);
-        mssv = (EditText) view.findViewById(R.id.txtPassDialog);
-        lvSinhVien = (ListView) view.findViewById(R.id.listViewSinhVien);
+        //AX
+        dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.activity_dialog);
+        database = new SQLite(getContext(), "Student1.sqlite", null, 1);
         arrayList = new ArrayList<>();
+        listView = (ListView) view.findViewById(R.id.listviewbook);
+        btnadd = (Button) view.findViewById(R.id.btnAdd);
+        edtsearch = (EditText) view.findViewById(R.id.edtSearch);
+        edtdialogID = (EditText) view.findViewById(R.id.dialogID);
+        edtdialogTilte = (EditText) view.findViewById(R.id.dialogTILTE);
+        edtdialogAuthor = (EditText) view.findViewById(R.id.dialogAUTHOR);
+        edtdialogPrice = (EditText) view.findViewById(R.id.dialogPRICE);
+        btndialogup = (Button) view.findViewById(R.id.dialogbtnUP);
+        btndialogdel = (Button) view.findViewById(R.id.dialogbtnDEL);
+        btnsearch = (Button) view.findViewById(R.id.btnSearch);
+        txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
+        radioGroup= (RadioGroup) view.findViewById(R.id.radioGroup_character);
+        radioButtonMale = (RadioButton) view.findViewById(R.id.radioButton_male);
+        radioButtonFemale  =  (RadioButton)view.findViewById(R.id.radioButton_female);
+//        database.getDataBook("");
+        arrayList.clear();
+        showlist("");
 
-        database = new SQLite(getContext(), "Student3.sqlite", null, 1);
-        database.QueryData("CREATE TABLE IF NOT EXISTS Sinhvien(Id INTEGER PRIMARY KEY AUTOINCREMENT,Ten WARCHAR,MSSV WARCHAR)");
-//        database.QueryData("DELETE FROM Sinhvien "); (DELETE All)
-        GetDataDB();
-        adapterSinhVien = new AdapterSinhVien(getActivity(), R.layout.info_sv, arrayList);
-
-        LvSinhVien.setAdapter(adapterSinhVien);
-
-        btn = (Button) view.findViewById(R.id.btnAddStu);
-        btn1 = (Button) view.findViewById(R.id.btnDelStu);
-        btn2 = (Button) view.findViewById(R.id.btnUpStu);
-        btn3=(Button) view.findViewById(R.id.btnSearchStu);
-        search=(EditText) view.findViewById(R.id.txtSearch);
-        btn.setOnClickListener(new View.OnClickListener() {
+        btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(getActivity());
-                dialog.setContentView(R.layout.activity_dialog);
-                dialog.setTitle("Add Student");
-                user = (EditText) dialog.findViewById(R.id.txtUserDialog);
-                mssv = (EditText) dialog.findViewById(R.id.txtPassDialog);
-                btnadd = (Button) dialog.findViewById(R.id.btnAdd1);
+            public void onClick(View view) {
+                DialogBook();
+                btndialogup.setText("Add");
+                txtdialogname.setText("");
+                btndialogdel.setVisibility(View.INVISIBLE);
+            }
+        });
+        btnsearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("text", edtsearch.getText().toString());
+                arrayList.clear();
+                adapterSinhVien.notifyDataSetChanged();
+//                database.getSearchBook("");
+                showlist(edtsearch.getText().toString());
+                Toast.makeText(getContext(), "Search OK", Toast.LENGTH_SHORT).show();
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final int index = i;
+                SinhVien a = new SinhVien();
+                final String indextext = arrayList.get(index).getId() + "";
 
-                btnadd.setOnClickListener(new View.OnClickListener() {
+                Log.d("index", index + "  " + indextext);
+                txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
+//                final String namedialog=indextext.substring(indextext.indexOf("\n")+1,indextext.indexOf("\n"));
+                DialogBook();
+                btndialogdel.setVisibility(View.VISIBLE);
+                dialog.setTitle("Update and Delete");
+                txtdialogname.setText(arrayList.get(index).getName());
+                btndialogdel.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        userdialog = user.getText().toString();
-                        mssvdialog = mssv.getText().toString();
-                        database.QueryData("INSERT INTO Sinhvien VALUES(null,'" + userdialog + "','" + mssvdialog + "')");
-                        Toast.makeText(getContext(), "Add OK", Toast.LENGTH_SHORT).show();
+                    public void onClick(View view) {
+                        final String sql = database.delete(indextext);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Delete");
+                        builder.setMessage("Can You Detele " + arrayList.get(index).getName() + " Student?");
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                database.QueryData(sql);
+                                Toast.makeText(getContext(), "Delete OK", Toast.LENGTH_SHORT).show();
+                                database.getData("");
+                                adapterSinhVien.notifyDataSetChanged();
+                            }
+
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        builder.show();
+                        database.getData("");
+                        arrayList.clear();
                         adapterSinhVien.notifyDataSetChanged();
+                        showlist("");
                         dialog.dismiss();
-                        GetDataDB();
-
                     }
                 });
-
-                dialog.show();
-            }
-        });
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog1 = new Dialog(getActivity());
-                dialog1.setContentView(R.layout.activity_dialog);
-                dialog1.setTitle("Delete Student");
-                user = (EditText) dialog1.findViewById(R.id.txtUserDialog);
-                user.setHint("Input Id Detete");
-                mssv = (EditText) dialog1.findViewById(R.id.txtPassDialog);
-                mssv.setVisibility(View.INVISIBLE);
-                btnadd = (Button) dialog1.findViewById(R.id.btnAdd1);
-                btnadd.setText("Delete");
-                btnadd.setOnClickListener(new View.OnClickListener() {
+                btndialogup.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        userdialog = user.getText().toString();
-                        database.QueryData("DELETE FROM Sinhvien WHERE Ten='"+userdialog+"'");//Detete row name & id
-//                        database.QueryData("DELETE FROM Sinhvien");
-                        Toast.makeText(getContext(), "Delete OK", Toast.LENGTH_SHORT).show();
+                    public void onClick(View view) {
+                        String id = edtdialogID.getText().toString();
+                        String name = edtdialogTilte.getText().toString();
+                        String lop = edtdialogAuthor.getText().toString();
+                        String bir = edtdialogPrice.getText().toString();
+                        final String sql = database.update(Integer.parseInt(id), name, lop,null, bir, indextext);
+                        try {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setTitle("Update");
+                            builder.setMessage("Can You Update " + arrayList.get(index).getName() + " to " + name + "  Student?");
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    database.QueryData(sql);
+                                    Toast.makeText(getContext(), "Update OK", Toast.LENGTH_SHORT).show();
+                                    database.getData("");
+                                    adapterSinhVien.notifyDataSetChanged();
+                                }
+
+                            });
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                            builder.show();
+                        } catch (Exception ex) {
+                            AlertErrorDialog();
+                        }
+//                arrayList.add(new ClassBook(Integer.parseInt(id),tilte,author,price));
+                        database.getData("");
+                        arrayList.clear();
                         adapterSinhVien.notifyDataSetChanged();
-                        dialog1.dismiss();
-                        GetDataDB();
+                        showlist("");
+                        dialog.dismiss();
+
+//              database.QueryData(database.addBook(new ClassBook(0,tilte,author,price)));
                     }
                 });
-                dialog1.show();
+
+                return false;
 
             }
         });
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog1 = new Dialog(getActivity());
-                dialog1.setContentView(R.layout.activity_dialog);
-                dialog1.setTitle("Update Student");
-                user = (EditText) dialog1.findViewById(R.id.txtUserDialog);
-                user.setHint("Input Id Update");
-                mssv = (EditText) dialog1.findViewById(R.id.txtPassDialog);
-                mssv.setHint("Update Here by Id");
-                btnadd = (Button) dialog1.findViewById(R.id.btnAdd1);
-                btnadd.setText("Update");
-                btnadd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        userdialog = user.getText().toString();
-                        mssvdialog = mssv.getText().toString();
-                        database.QueryData("UPDATE Sinhvien SET Ten='"+mssvdialog+"' WHERE Ten='"+userdialog+"'");//Uodate
-//                        database.QueryData("DELETE FROM Sinhvien");
-                        Toast.makeText(getContext(), "Update OK", Toast.LENGTH_SHORT).show();
-                        adapterSinhVien.notifyDataSetChanged();
-                        dialog1.dismiss();
-                        GetDataDB();
-                    }
-                });
-                dialog1.show();
-
-            }
-        });
-//        btn3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                txtsearch=search.getText().toString();
-//                SearchDataDB();
-//            }
-//        });
+        adapterSinhVien = new AdapterSinhVien(getActivity(), R.layout.info_sv, arrayList);
+        listView.setAdapter(adapterSinhVien);
         return view;
     }
 
-    final public void GetDataDB() {
-        arrayList.clear();
-//Get Database and display
-        Cursor cursor = database.GetData("SELECT * FROM Sinhvien");
-        while (cursor.moveToNext()) {
-            userdb = cursor.getString(1);
-            mssvdb = cursor.getString(2);
-            arrayList.add(new SinhVien(userdb, mssvdb, 0));
+
+    public void DialogBook() {
+        dialog.setTitle("Add Book");
+        edtdialogID = (EditText) dialog.findViewById(R.id.dialogID);
+        edtdialogTilte = (EditText) dialog.findViewById(R.id.dialogTILTE);
+        edtdialogAuthor = (EditText) dialog.findViewById(R.id.dialogAUTHOR);
+        edtdialogPrice = (EditText) dialog.findViewById(R.id.dialogPRICE);
+        btndialogup = (Button) dialog.findViewById(R.id.dialogbtnUP);
+        btndialogdel = (Button) dialog.findViewById(R.id.dialogbtnDEL);
+        radioGroup= (RadioGroup) dialog.findViewById(R.id.radioGroup_character);
+        radioButtonMale = (RadioButton) dialog.findViewById(R.id.radioButton_male);
+        radioButtonFemale  =  (RadioButton)dialog.findViewById(R.id.radioButton_female);
+        edtdialogID.setText("");
+        edtdialogPrice.setText("");
+        edtdialogTilte.setText("");
+        edtdialogAuthor.setText("");
+        btndialogup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String id = edtdialogID.getText().toString();
+                String name = edtdialogTilte.getText().toString();
+                String lop = edtdialogAuthor.getText().toString();
+                String bir = edtdialogPrice.getText().toString();
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        RadioButton rb = (RadioButton) group.findViewById(checkedId);
+                        if (null != rb && checkedId > -1) {
+                            Toast.makeText(getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+                RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+
+                String gender=Gender=rb.getText().toString();
+                final String sql = database.add(Integer.parseInt(id), name, lop,gender, bir);
+                try {
+                    database.QueryData(sql);
+                    Toast.makeText(getContext(), "Add OK", Toast.LENGTH_SHORT).show();
+                } catch (Exception ex) {
+                    AlertErrorDialog();
+                }
+
+//                arrayList.add(new ClassBook(Integer.parseInt(id),tilte,author,price));
+                database.getData("");
+                arrayList.clear();
+                adapterSinhVien.notifyDataSetChanged();
+                showlist("");
+                dialog.dismiss();
+            }
+
+//              database.QueryData(database.addBook(new ClassBook(0,tilte,author,price)));
+
+        });
+        dialog.show();
+    }
+
+    public void AlertErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Error");
+        builder.setMessage("ID Exist, Please input other Id.Tks");
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.show();
+    }
+
+    public void showlist(String name) {
+        if (name.equals("")) {
+            arrayList = database.getData("");
+        } else {
+            arrayList = database.getSearch(edtsearch.getText().toString());
         }
 
-    }
-//    final public void SearchDataDB() {
-//        arrayList.clear();
-////Get Database and display
-//        Cursor cursor = database.GetData("SELECT * FROM Sinhvien WHERE Ten='"+txtsearch+"'");
-//        while (cursor.moveToNext()) {
-//            userdb = cursor.getString(1);
-//            mssvdb = cursor.getString(2);
-//            arrayList.add(new SinhVien(userdb, mssvdb, 0));
-//        }
-//
-//    }
 
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
 

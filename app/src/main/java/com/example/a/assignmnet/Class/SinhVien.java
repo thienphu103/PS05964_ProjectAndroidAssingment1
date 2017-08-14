@@ -5,22 +5,30 @@ package com.example.a.assignmnet.Class;
  */
 
 public class SinhVien {
-    private String name;
-    private String id;
-    private int urlHinh;
+    public String id;
+    public String name;
+    public String lop;
+    public String gender;
+    public String birthday;
+    public int urlHinh;
 
-    public SinhVien(String name, String id, int urlHinh) {
-        this.name = name;
+    public SinhVien(String id, String name, String lop, String gender, String birthday) {
         this.id = id;
-        this.urlHinh = urlHinh;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
+        this.lop = lop;
+        this.gender = gender;
+        this.birthday = birthday;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public SinhVien() {
     }
 
     public String getId() {
@@ -31,6 +39,30 @@ public class SinhVien {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLop() {
+        return lop;
+    }
+
+    public void setLop(String lop) {
+        this.lop = lop;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
     public int getUrlHinh() {
         return urlHinh;
     }
@@ -38,4 +70,5 @@ public class SinhVien {
     public void setUrlHinh(int urlHinh) {
         this.urlHinh = urlHinh;
     }
+
 }

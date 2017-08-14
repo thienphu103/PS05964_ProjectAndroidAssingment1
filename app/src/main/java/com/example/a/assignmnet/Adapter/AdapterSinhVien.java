@@ -69,7 +69,7 @@ public class AdapterSinhVien extends BaseAdapter {
     }
 
     private class ViewHolder {
-        TextView txtName, txtId;
+        TextView txtName, txtId,txtClass,txtBir,txtGen;
         ImageView ivImg;
     }
 
@@ -87,7 +87,11 @@ public class AdapterSinhVien extends BaseAdapter {
 
             viewHolder.txtName = (TextView) convertView.findViewById(R.id.textViewName);
             viewHolder.txtId = (TextView) convertView.findViewById(R.id.textViewId);
+            viewHolder.txtClass = (TextView) convertView.findViewById(R.id.textViewClass);
+            viewHolder.txtGen = (TextView) convertView.findViewById(R.id.textViewGender);
+            viewHolder.txtBir = (TextView) convertView.findViewById(R.id.textViewBir);
             viewHolder.ivImg = (ImageView) convertView.findViewById(R.id.imageViewImage);
+
 
             convertView.setTag(viewHolder);
         } else {
@@ -98,8 +102,10 @@ public class AdapterSinhVien extends BaseAdapter {
 
         viewHolder.txtName.setText(sinhVien.getName());
         viewHolder.txtId.setText(sinhVien.getId());
+        viewHolder.txtClass.setText(sinhVien.getLop());
+        viewHolder.txtBir.setText(sinhVien.getBirthday());
+        viewHolder.txtGen.setText(sinhVien.getGender());
         viewHolder.ivImg.setImageResource(sinhVien.getUrlHinh());
-
         return convertView;
     }
 }
