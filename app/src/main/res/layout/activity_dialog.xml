@@ -11,18 +11,19 @@
     android:textSize="30sp"
     android:paddingBottom="20sp"
     android:gravity="center"/>
-    <EditText
-        android:id="@+id/dialogID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="ID"
-        />
+
     <EditText
         android:id="@+id/dialogTILTE"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:hint="Name Sudent"/>
+    <EditText
+        android:id="@+id/dialogID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID"
+
+        />
     <EditText
         android:id="@+id/dialogAUTHOR"
         android:layout_width="match_parent"

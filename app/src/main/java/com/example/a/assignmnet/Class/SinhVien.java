@@ -20,6 +20,10 @@ public class SinhVien {
         this.birthday = birthday;
     }
 
+    public SinhVien(int urlHinh) {
+        this.urlHinh = urlHinh;
+    }
+
     public String getGender() {
         return gender;
     }

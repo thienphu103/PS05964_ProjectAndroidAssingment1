@@ -14,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +43,10 @@ public class TabListViewClass extends Fragment {
     EditText edtdialogTilte;
     EditText edtdialogAuthor;
     EditText edtdialogPrice;
+    RadioGroup radioGroup;
+    RadioButton radioButtonMale;
+    RadioButton radioButtonFemale;
+    String Gender;
 
 
     @Nullable
@@ -50,7 +56,7 @@ public class TabListViewClass extends Fragment {
         //AX
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.activity_dialog);
-        database = new SQLite(getContext(), "Class1.sqlite", null, 1);
+        database = new SQLite(getContext(), "Class2.sqlite", null, 1);
         arrayList = new ArrayList<>();
         listView = (ListView) view.findViewById(R.id.listviewbook);
         btnadd = (Button) view.findViewById(R.id.btnAdd);
@@ -62,6 +68,9 @@ public class TabListViewClass extends Fragment {
         btndialogup = (Button) view.findViewById(R.id.dialogbtnUP);
         btndialogdel = (Button) view.findViewById(R.id.dialogbtnDEL);
         btnsearch = (Button) view.findViewById(R.id.btnSearch);
+        radioGroup= (RadioGroup) view.findViewById(R.id.radioGroup_character);
+        radioButtonMale = (RadioButton) view.findViewById(R.id.radioButton_male);
+        radioButtonFemale  =  (RadioButton)view.findViewById(R.id.radioButton_female);
         txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
 //        database.getDataBook("");
         arrayList.clear();
@@ -139,7 +148,20 @@ public class TabListViewClass extends Fragment {
                         String tilte = edtdialogTilte.getText().toString();
                         String author = edtdialogAuthor.getText().toString();
                         String price = edtdialogPrice.getText().toString();
-                        final String sql = database.update(Integer.parseInt(id), tilte, author,null, price, indextext);
+                        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                RadioButton rb = (RadioButton) group.findViewById(checkedId);
+                                if (null != rb && checkedId > -1) {
+                                    Toast.makeText(getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
+                        RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+
+                        String gender=Gender=rb.getText().toString();
+                        final String sql = database.update(id, tilte, author,gender, price, indextext);
                         try {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setTitle("Update");
@@ -164,7 +186,7 @@ public class TabListViewClass extends Fragment {
                         } catch (Exception ex) {
                             AlertErrorDialog();
                         }
-//                arrayList.add(new ClassBook(Integer.parseInt(id),tilte,author,price));
+//                arrayList.add(new ClassBook(idid),tilte,author,price));
                         database.getData("");
                         arrayList.clear();
                         adapterLop.notifyDataSetChanged();
@@ -193,6 +215,9 @@ public class TabListViewClass extends Fragment {
         edtdialogPrice = (EditText) dialog.findViewById(R.id.dialogPRICE);
         btndialogup = (Button) dialog.findViewById(R.id.dialogbtnUP);
         btndialogdel = (Button) dialog.findViewById(R.id.dialogbtnDEL);
+        radioGroup= (RadioGroup) dialog.findViewById(R.id.radioGroup_character);
+        radioButtonMale = (RadioButton) dialog.findViewById(R.id.radioButton_male);
+        radioButtonFemale  =  (RadioButton)dialog.findViewById(R.id.radioButton_female);
         edtdialogID.setText("");
         edtdialogPrice.setText("");
         edtdialogTilte.setText("");
@@ -204,7 +229,20 @@ public class TabListViewClass extends Fragment {
                 String tilte = edtdialogTilte.getText().toString();
                 String author = edtdialogAuthor.getText().toString();
                 String price = edtdialogPrice.getText().toString();
-                final String sql = database.add(Integer.parseInt(id), tilte,null, author, price);
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        RadioButton rb = (RadioButton) group.findViewById(checkedId);
+                        if (null != rb && checkedId > -1) {
+                            Toast.makeText(getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+                RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+
+                String gender=Gender=rb.getText().toString();
+                final String sql = database.add(id, tilte, author,gender, price);
                 try {
                     database.QueryData(sql);
                     Toast.makeText(getContext(), "Add OK", Toast.LENGTH_SHORT).show();
@@ -212,7 +250,7 @@ public class TabListViewClass extends Fragment {
                     AlertErrorDialog();
                 }
 
-//                arrayList.add(new ClassBook(Integer.parseInt(id),tilte,author,price));
+//                arrayList.add(new ClassBook(idid),tilte,author,price));
                 database.getData("");
                 arrayList.clear();
                 adapterLop.notifyDataSetChanged();

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class SQLite extends SQLiteOpenHelper {
     private static final String TABLE = "STUDENT";
+    private static final String KEY_ID_TABLE = "ID_TABLE";
     private static final String KEY_ID = "ID";
     private static final String KEY_NAME = "NAME";
     private static final String KEY_GENDER = "GENDER";
@@ -41,7 +42,8 @@ public class SQLite extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE + "'");
         String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
-                KEY_ID + " INTEGER PRIMARY KEY," +// AUTOINCREMENT
+                KEY_ID_TABLE + " INTEGER PRIMARY KEY AUTOINCREMENT," +//
+                KEY_ID + " WARCHAR," +
                 KEY_NAME + " WARCHAR," +
                 KEY_CLASS + " WARCHAR," +
                 KEY_GENDER + " WARCHAR," +
@@ -60,11 +62,12 @@ public class SQLite extends SQLiteOpenHelper {
       String sql= "SELECT * FROM " + TABLE + "";
         Cursor cursor = GetData(sql);
         while (cursor.moveToNext()) {
-            String id = cursor.getString(0);
-            String ten = cursor.getString(1);
-            String lop = cursor.getString(2);
-            String gt = cursor.getString(3);
-            String bir = cursor.getString(4);
+            String id_table=cursor.getString(0);
+            String id = cursor.getString(1);
+            String ten = cursor.getString(2);
+            String lop = cursor.getString(3);
+            String gt = cursor.getString(4);
+            String bir = cursor.getString(5);
             arrayList.add(new SinhVien(id, ten, lop,gt, bir));
         }
 
@@ -76,11 +79,12 @@ public class SQLite extends SQLiteOpenHelper {
         String sql= "SELECT * FROM " + TABLE + " WHERE " + KEY_NAME + " LIKE '%"+name+"%'";;
         Cursor cursor = GetData(sql);
         while (cursor.moveToNext()) {
-            String id = cursor.getString(0);
-            String ten = cursor.getString(1);
-            String lop = cursor.getString(2);
-            String gt = cursor.getString(3);
-            String bir = cursor.getString(4);
+            String id_table=cursor.getString(0);
+            String id = cursor.getString(1);
+            String ten = cursor.getString(2);
+            String lop = cursor.getString(3);
+            String gt = cursor.getString(4);
+            String bir = cursor.getString(5);
             arrayList.add(new SinhVien(id, ten, lop,gt, bir));
         }
 
@@ -97,8 +101,9 @@ public class SQLite extends SQLiteOpenHelper {
         return Deletebook;
     }
 
-    public String add(int id, String name, String lop,String gt, String bir) {
+    public String add(String id, String name, String lop,String gt, String bir) {
         String AddData = "INSERT INTO " + TABLE + " VALUES(" +
+                "null," +
                 "'" + id + "'," +
                 "'" + name + "'," +
                 "'" + lop + "'," +
@@ -108,9 +113,10 @@ public class SQLite extends SQLiteOpenHelper {
         return AddData;
     }
 
-    public String update(int id, String name, String lop,String gt, String bir, String idup) {
+    public String update(String id, String name, String lop,String gt, String bir, String idup) {
 //        String UpdateData="UPDATE " +TABLE+"   VALUES ('"+id+"', '"+tilte+"', '"+author+"','"+price+"'), WHERE " + KEY_ID + "='" + idup + "'";
         String UpdateData = "UPDATE " + TABLE + " SET " + KEY_ID + "='" + id + "'" +
+//                "null," +
                 " , " + KEY_NAME + "='" + name + "'" +
                 " , " + KEY_CLASS + "='" + lop + "'" +
                 " , " + KEY_GENDER + "='" + gt + "'" +

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +58,7 @@ public class TabListViewSV extends Fragment {
         //AX
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.activity_dialog);
-        database = new SQLite(getContext(), "Student1.sqlite", null, 1);
+        database = new SQLite(getContext(), "Student2.sqlite", null, 1);
         arrayList = new ArrayList<>();
         listView = (ListView) view.findViewById(R.id.listviewbook);
         btnadd = (Button) view.findViewById(R.id.btnAdd);
@@ -74,8 +76,33 @@ public class TabListViewSV extends Fragment {
         radioButtonFemale  =  (RadioButton)view.findViewById(R.id.radioButton_female);
 //        database.getDataBook("");
         arrayList.clear();
+        SinhVien a=new SinhVien(R.drawable.studenticon);
+        arrayList.add(a);
         showlist("");
+edtsearch.addTextChangedListener(new TextWatcher() {
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+//Toast.makeText(getContext(),"aaa",Toast.LENGTH_LONG).show();
+
+                Log.d("text", edtsearch.getText().toString());
+                arrayList.clear();
+                adapterSinhVien.notifyDataSetChanged();
+//                database.getSearchBook("");
+                showlist(edtsearch.getText().toString());
+                Toast.makeText(getContext(), "Search OK", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+});
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,7 +175,20 @@ public class TabListViewSV extends Fragment {
                         String name = edtdialogTilte.getText().toString();
                         String lop = edtdialogAuthor.getText().toString();
                         String bir = edtdialogPrice.getText().toString();
-                        final String sql = database.update(Integer.parseInt(id), name, lop,null, bir, indextext);
+                        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                RadioButton rb = (RadioButton) group.findViewById(checkedId);
+                                if (null != rb && checkedId > -1) {
+                                    Toast.makeText(getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
+                        RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+
+                        String gender=Gender=rb.getText().toString();
+                        final String sql = database.update(id, name, lop,gender, bir, indextext);
                         try {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setTitle("Update");
@@ -173,7 +213,7 @@ public class TabListViewSV extends Fragment {
                         } catch (Exception ex) {
                             AlertErrorDialog();
                         }
-//                arrayList.add(new ClassBook(Integer.parseInt(id),tilte,author,price));
+//                arrayList.add(new ClassBook(id,tilte,author,price));
                         database.getData("");
                         arrayList.clear();
                         adapterSinhVien.notifyDataSetChanged();
@@ -229,7 +269,7 @@ public class TabListViewSV extends Fragment {
                 RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
 
                 String gender=Gender=rb.getText().toString();
-                final String sql = database.add(Integer.parseInt(id), name, lop,gender, bir);
+                final String sql = database.add(id, name, lop,gender, bir);
                 try {
                     database.QueryData(sql);
                     Toast.makeText(getContext(), "Add OK", Toast.LENGTH_SHORT).show();
@@ -237,7 +277,7 @@ public class TabListViewSV extends Fragment {
                     AlertErrorDialog();
                 }
 
-//                arrayList.add(new ClassBook(Integer.parseInt(id),tilte,author,price));
+//                arrayList.add(new ClassBook(id,tilte,author,price));
                 database.getData("");
                 arrayList.clear();
                 adapterSinhVien.notifyDataSetChanged();
@@ -263,6 +303,7 @@ public class TabListViewSV extends Fragment {
         });
         builder.show();
     }
+
 
     public void showlist(String name) {
         if (name.equals("")) {
