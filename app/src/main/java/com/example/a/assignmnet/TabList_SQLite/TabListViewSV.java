@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.a.assignmnet.Adapter.AdapterSinhVien;
 import com.example.a.assignmnet.Class.Lop;
 import com.example.a.assignmnet.Class.SinhVien;
+import com.example.a.assignmnet.Main_Screen.MainActivityLogin;
 import com.example.a.assignmnet.R;
 import com.example.a.assignmnet.SQL.SQLite;
 
@@ -81,9 +82,15 @@ public class TabListViewSV extends Fragment {
         radioButtonMale = (RadioButton) view.findViewById(R.id.radioButton_male);
         radioButtonFemale = (RadioButton) view.findViewById(R.id.radioButton_female);
         spinner = (Spinner) view.findViewById(R.id.spinner);
-//        database.getDataBook("");
         arrayList.clear();
         showlist("");
+        MainActivityLogin login =new MainActivityLogin();
+        Log.d("key",login.admin+"");
+        if(login.admin==0){
+            btnadd.setVisibility(View.INVISIBLE);
+
+
+        }
         edtsearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -128,142 +135,151 @@ public class TabListViewSV extends Fragment {
                 Toast.makeText(getContext(), "Search OK", Toast.LENGTH_SHORT).show();
             }
         });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final int index = i;
-                SinhVien a = new SinhVien();
-                final String indextext = arrayList.get(index).getId() + "";
+        if(login.admin==0){
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    return false;
+                }
+            });
+        }else {
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    final int index = i;
+                    SinhVien a = new SinhVien();
+                    final String indextext = arrayList.get(index).getId() + "";
 
-                Log.d("index", index + "  " + indextext);
-                txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
+                    Log.d("index", index + "  " + indextext);
+                    txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
 //                final String namedialog=indextext.substring(indextext.indexOf("\n")+1,indextext.indexOf("\n"));
-                DialogBook();
-                btndialogdel.setVisibility(View.VISIBLE);
-                dialog.setTitle("Update and Delete");
-                txtdialogname.setText(arrayList.get(index).getName());
-                btndialogdel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final String sql = database.delete(indextext);
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle("Delete");
-                        builder.setMessage("Can You Detele " + arrayList.get(index).getName() + " Student?");
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                database.QueryData(sql);
-                                Toast.makeText(getContext(), "Delete OK", Toast.LENGTH_SHORT).show();
-                                database.getData("");
-                                adapterSinhVien.notifyDataSetChanged();
-                            }
-
-                        });
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                        builder.show();
-                        database.getData("");
-                        arrayList.clear();
-                        adapterSinhVien.notifyDataSetChanged();
-                        showlist("");
-                        dialog.dismiss();
-                    }
-                });
-                spinner = (Spinner) dialog.findViewById(R.id.spinner);
-                edtdialogID.setText("");
-                edtdialogPrice.setText("");
-                edtdialogTilte.setText("");
-                List<Lop> list = new ArrayList<>();
-                databaseclass = new SQLite(getContext(), "Class3.sqlite", null, 1);
-                list = databaseclass.getDataClassSpinner("");
-                ArrayAdapter<Lop> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, list);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(adapter);
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        Toast.makeText(getContext(), spinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                    }
-                });
-                btndialogup.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String id = edtdialogID.getText().toString();
-                        String name = edtdialogTilte.getText().toString();
-                        String lop = spinner.getSelectedItem().toString().substring(0, spinner.getSelectedItem().toString().indexOf("-"));
-                        String bir = edtdialogPrice.getText().toString();
-                        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                                RadioButton rb = (RadioButton) group.findViewById(checkedId);
-                                if (null != rb && checkedId > -1) {
-                                    Toast.makeText(getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
+                    DialogBook();
+                    btndialogdel.setVisibility(View.VISIBLE);
+                    dialog.setTitle("Update and Delete");
+                    txtdialogname.setText(arrayList.get(index).getName());
+                    btndialogdel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            final String sql = database.delete(indextext);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setTitle("Delete");
+                            builder.setMessage("Can You Detele " + arrayList.get(index).getName() + " Student?");
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    database.QueryData(sql);
+                                    Toast.makeText(getContext(), "Delete OK", Toast.LENGTH_SHORT).show();
+                                    database.getData("");
+                                    adapterSinhVien.notifyDataSetChanged();
                                 }
 
-                            }
-                        });
-                        RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
-                        String gender = Gender = rb.getText().toString();
-                        final String sql = database.update(id, name, lop, gender, bir, indextext);
-                        if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty() || edtdialogPrice.getText().toString().isEmpty()) {
-                            edtdialogID.setHint("Input ID ");
-                            edtdialogPrice.setHint("Input Birthday Year");
-                            edtdialogTilte.setHint("Input Name");
-                            edtdialogID.setHintTextColor(Color.RED);
-                            edtdialogTilte.setHintTextColor(Color.RED);
-                            edtdialogPrice.setHintTextColor(Color.RED);
+                            });
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
 
-                        } else {
-                            try {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                builder.setTitle("Update");
-                                builder.setMessage("Can You Update " + arrayList.get(index).getName() + " to " + name + "  Student?");
-                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        database.QueryData(sql);
-                                        Toast.makeText(getContext(), "Update OK", Toast.LENGTH_SHORT).show();
-                                        database.getData("");
-                                        adapterSinhVien.notifyDataSetChanged();
-                                    }
-
-                                });
-                                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                                    }
-                                });
-                                builder.show();
-                            } catch (Exception ex) {
-                                AlertErrorDialog();
-                            }
-
-//                arrayList.add(new ClassBook(id,tilte,author,price));
+                                }
+                            });
+                            builder.show();
                             database.getData("");
                             arrayList.clear();
                             adapterSinhVien.notifyDataSetChanged();
                             showlist("");
+                            dialog.dismiss();
                         }
-                        dialog.dismiss();
+                    });
+                    spinner = (Spinner) dialog.findViewById(R.id.spinner);
+                    edtdialogID.setText("");
+                    edtdialogPrice.setText("");
+                    edtdialogTilte.setText("");
+                    List<Lop> list = new ArrayList<>();
+                    databaseclass = new SQLite(getContext(), "Class3.sqlite", null, 1);
+                    list = databaseclass.getDataClassSpinner("");
+                    ArrayAdapter<Lop> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, list);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(adapter);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            Toast.makeText(getContext(), spinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                    btndialogup.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String id = edtdialogID.getText().toString();
+                            String name = edtdialogTilte.getText().toString();
+                            String lop = spinner.getSelectedItem().toString().substring(0, spinner.getSelectedItem().toString().indexOf("-"));
+                            String bir = edtdialogPrice.getText().toString();
+                            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                    RadioButton rb = (RadioButton) group.findViewById(checkedId);
+                                    if (null != rb && checkedId > -1) {
+                                        Toast.makeText(getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            });
+                            RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+                            String gender = Gender = rb.getText().toString();
+                            final String sql = database.update(id, name, lop, gender, bir, indextext);
+                            if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty() || edtdialogPrice.getText().toString().isEmpty()) {
+                                edtdialogID.setHint("Input ID ");
+                                edtdialogPrice.setHint("Input Birthday Year");
+                                edtdialogTilte.setHint("Input Name");
+                                edtdialogID.setHintTextColor(Color.RED);
+                                edtdialogTilte.setHintTextColor(Color.RED);
+                                edtdialogPrice.setHintTextColor(Color.RED);
+
+                            } else {
+                                try {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    builder.setTitle("Update");
+                                    builder.setMessage("Can You Update " + arrayList.get(index).getName() + " to " + name + "  Student?");
+                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            database.QueryData(sql);
+                                            Toast.makeText(getContext(), "Update OK", Toast.LENGTH_SHORT).show();
+                                            database.getData("");
+                                            adapterSinhVien.notifyDataSetChanged();
+                                        }
+
+                                    });
+                                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+                                    builder.show();
+                                } catch (Exception ex) {
+                                    AlertErrorDialog();
+                                }
+
+//                arrayList.add(new ClassBook(id,tilte,author,price));
+                                database.getData("");
+                                arrayList.clear();
+                                adapterSinhVien.notifyDataSetChanged();
+                                showlist("");
+                            }
+                            dialog.dismiss();
 
 //              database.QueryData(database.addBook(new ClassBook(0,tilte,author,price)));
-                    }
-                });
+                        }
+                    });
 
-                return false;
+                    return false;
 
-            }
-        });
+                }
+            });
+        }
         adapterSinhVien = new AdapterSinhVien(getActivity(), R.layout.info_sv, arrayList);
         listView.setAdapter(adapterSinhVien);
         return view;
@@ -322,7 +338,7 @@ public class TabListViewSV extends Fragment {
                 RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
 
                 String gender = Gender = rb.getText().toString();
-                final String sql = database.add(id, name, lop, gender, bir);
+                final String sql = database.addStu(id, name, lop, gender, bir);
                 if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty() || edtdialogPrice.getText().toString().isEmpty()) {
                     edtdialogID.setHint("Input ID ");
                     edtdialogPrice.setHint("Input Birthday Year");

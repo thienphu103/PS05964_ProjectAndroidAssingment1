@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.a.assignmnet.Class.Lop;
+import com.example.a.assignmnet.Class.Resgiter;
 import com.example.a.assignmnet.Class.SinhVien;
 
 import java.util.ArrayList;
@@ -27,8 +28,15 @@ public class SQLite extends SQLiteOpenHelper {
     private static final String KEY_ID_TABLE_CLASS = "ID_TABLE_CLASS";
     private static final String KEY_ID_CLASS = "ID_CLASS";
     private static final String KEY_NAME_CLASS = "NAME_CLASS";
+
+    private static final String TABLE_REGISTER = "REGISTER";
+    private static final String KEY_ID_REGISTER = "ID_REGISTER";
+    private static final String KEY_USER = "USER";
+    private static final String KEY_PASS = "PASS";
+
     ArrayList<SinhVien> arrayList = new ArrayList<>();
     ArrayList<Lop> arrayListClass = new ArrayList<>();
+    ArrayList<Resgiter> arrayListRe = new ArrayList<>();
     public SQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -48,6 +56,7 @@ public class SQLite extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE + "'");
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE_CLASS + "'");
+        db.execSQL("DROP TABLE IF EXISTS '" + TABLE_REGISTER + "'");
         String CREATE_TABLE_STUDENT = "CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
                 KEY_ID_TABLE + " INTEGER PRIMARY KEY AUTOINCREMENT," +//
                 KEY_ID + " VARCHAR," +
@@ -55,12 +64,19 @@ public class SQLite extends SQLiteOpenHelper {
                 KEY_CLASS + " VARCHAR," +
                 KEY_GENDER + " VARCHAR," +
                 KEY_BIRTHDAY + " VARCHAR)";
+
         String CREATE_TABLE_CLASS = "CREATE TABLE IF NOT EXISTS " + TABLE_CLASS + "(" +
                 KEY_ID_TABLE_CLASS + " INTEGER PRIMARY KEY AUTOINCREMENT," +//
                 KEY_ID_CLASS + " VARCHAR," +
                 KEY_NAME_CLASS + " VARCHAR)";
+
+        String CREATE_TABLE_REGISTER = "CREATE TABLE IF NOT EXISTS " + TABLE_REGISTER + "(" +
+                KEY_ID_REGISTER+ " INTEGER PRIMARY KEY AUTOINCREMENT," +//
+                KEY_USER + " VARCHAR," +
+                KEY_PASS + " VARCHAR)";
         db.execSQL(CREATE_TABLE_STUDENT);
         db.execSQL(CREATE_TABLE_CLASS);
+        db.execSQL(CREATE_TABLE_REGISTER);
 
 
     }
@@ -115,7 +131,7 @@ public class SQLite extends SQLiteOpenHelper {
         return Deletebook;
     }
 
-    public String add(String id, String name, String lop, String gt, String bir) {
+    public String addStu(String id, String name, String lop, String gt, String bir) {
         String AddData = "INSERT INTO " + TABLE + " VALUES(" +
                 "null," +
                 "'" + id + "'," +
@@ -208,6 +224,31 @@ public class SQLite extends SQLiteOpenHelper {
                 " , " + KEY_NAME_CLASS + "='" + name + "'" +
                 " WHERE " + KEY_ID_CLASS + "='" + idup + "'";//Update
         return UpdateData;
+    }
+
+
+    public ArrayList<Resgiter> getDataRe(String name) {
+        arrayListRe.clear();
+        String sql = "SELECT * FROM " + TABLE_REGISTER + "";
+        Cursor cursor = GetData(sql);
+        while (cursor.moveToNext()) {
+            String id_table = cursor.getString(0);
+            String id = cursor.getString(1);
+            String ten = cursor.getString(2);
+            arrayListRe.add(new Resgiter(id, ten));
+
+        }
+
+        return arrayListRe;
+    }
+
+    public String addRe(String id, String name) {
+        String AddData = "INSERT INTO " + TABLE_REGISTER + " VALUES(" +
+                "null," +
+                "'" + id + "'," +
+                "'" + name + "')";
+//        String AddData = "INSERT INTO " + TABLE + " VALUES('" + classBook.id + "','" + classBook.tilte + "','" + classBook.author + "','" + classBook.price + "')";
+        return AddData;
     }
 
 }
