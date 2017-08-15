@@ -2,6 +2,7 @@ package com.example.a.assignmnet.TabList_SQLite;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -60,8 +61,8 @@ public class TabListViewClass extends Fragment {
         //AX
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.activity_dialog);
-        TabListViewSV sv=new TabListViewSV();
-        database =new  SQLite(getContext(), "Class3.sqlite", null, 1);
+        TabListViewSV sv = new TabListViewSV();
+        database = new SQLite(getContext(), "Class3.sqlite", null, 1);
         arrayList = new ArrayList<>();
         listView = (ListView) view.findViewById(R.id.listviewbook);
         btnadd = (Button) view.findViewById(R.id.btnAdd);
@@ -72,9 +73,9 @@ public class TabListViewClass extends Fragment {
         btndialogup = (Button) view.findViewById(R.id.dialogbtnUP);
         btndialogdel = (Button) view.findViewById(R.id.dialogbtnDEL);
         btnsearch = (Button) view.findViewById(R.id.btnSearch);
-        radioGroup= (RadioGroup) view.findViewById(R.id.radioGroup_character);
+        radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup_character);
         radioButtonMale = (RadioButton) view.findViewById(R.id.radioButton_male);
-        radioButtonFemale  =  (RadioButton)view.findViewById(R.id.radioButton_female);
+        radioButtonFemale = (RadioButton) view.findViewById(R.id.radioButton_female);
         txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
 //        database.getDataClassBook("");
         arrayList.clear();
@@ -94,7 +95,7 @@ public class TabListViewClass extends Fragment {
                 adapterLop.notifyDataSetChanged();
 //                database.getSearchBook("");
                 showlist(edtsearch.getText().toString());
-                Toast.makeText(getContext(), "Search OK", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Search OK", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -184,38 +185,49 @@ public class TabListViewClass extends Fragment {
                         });
                         RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
 
-                        String gender=Gender=rb.getText().toString();
+                        String gender = Gender = rb.getText().toString();
                         final String sql = database.updateClass(id, tilte, indextext);
-                        try {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle("Update");
-                            builder.setMessage("Can You Update " + arrayList.get(index).getName() + " to " + tilte + "  class?");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    database.QueryData(sql);
-                                    Toast.makeText(getContext(), "Update OK", Toast.LENGTH_SHORT).show();
-                                    database.getDataClass("");
-                                    adapterLop.notifyDataSetChanged();
-                                }
+                        if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty() || edtdialogPrice.getText().toString().isEmpty()) {
+                            edtdialogID.setHint("Input ID ");
+                            edtdialogPrice.setHint("Input Birthday Year");
+                            edtdialogTilte.setHint("Input Name");
+                            edtdialogID.setHintTextColor(Color.RED);
+                            edtdialogTilte.setHintTextColor(Color.RED);
+                            edtdialogPrice.setHintTextColor(Color.RED);
 
-                            });
-                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+                        } else {
+                            try {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setTitle("Update");
+                                builder.setMessage("Can You Update " + arrayList.get(index).getName() + " to " + tilte + "  class?");
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        database.QueryData(sql);
+                                        Toast.makeText(getContext(), "Update OK", Toast.LENGTH_SHORT).show();
+                                        database.getDataClass("");
+                                        adapterLop.notifyDataSetChanged();
+                                    }
 
-                                }
-                            });
-                            builder.show();
-                        } catch (Exception ex) {
-                            AlertErrorDialog();
-                        }
+                                });
+                                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                                builder.show();
+                            } catch (Exception ex) {
+                                AlertErrorDialog();
+                            }
 //                arrayList.add(new ClassBook(idid),tilte,author,price));
-                        database.getDataClass("");
-                        arrayList.clear();
-                        adapterLop.notifyDataSetChanged();
-                        showlist("");
-                        dialog.dismiss();
+                            database.getDataClass("");
+                            arrayList.clear();
+                            adapterLop.notifyDataSetChanged();
+                            showlist("");
+                            dialog.dismiss();
+                        }
+
 
 //              database.QueryData(database.addBook(new ClassBook(0,tilte,author,price)));
                     }
@@ -238,9 +250,9 @@ public class TabListViewClass extends Fragment {
         edtdialogPrice = (EditText) dialog.findViewById(R.id.dialogPRICE);
         btndialogup = (Button) dialog.findViewById(R.id.dialogbtnUP);
         btndialogdel = (Button) dialog.findViewById(R.id.dialogbtnDEL);
-        radioGroup= (RadioGroup) dialog.findViewById(R.id.radioGroup_character);
+        radioGroup = (RadioGroup) dialog.findViewById(R.id.radioGroup_character);
         radioButtonMale = (RadioButton) dialog.findViewById(R.id.radioButton_male);
-        radioButtonFemale  =  (RadioButton)dialog.findViewById(R.id.radioButton_female);
+        radioButtonFemale = (RadioButton) dialog.findViewById(R.id.radioButton_female);
         edtdialogID.setText("");
         edtdialogPrice.setText("");
         radioGroup.setVisibility(View.INVISIBLE);
@@ -256,24 +268,36 @@ public class TabListViewClass extends Fragment {
                 String tilte = edtdialogTilte.getText().toString();
 //
                 final String sql = database.addClass(id, tilte);
-                try {
-                    database.QueryData(sql);
-                    Toast.makeText(getContext(), "Add OK", Toast.LENGTH_SHORT).show();
-                } catch (Exception ex) {
-                    AlertErrorDialog();
-                }
+                if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty() || edtdialogPrice.getText().toString().isEmpty()) {
+                    edtdialogID.setHint("Input ID Class ");
+                    edtdialogPrice.setHint("Input Birthday Year");
+                    edtdialogTilte.setHint("Input Name Class");
+                    edtdialogID.setHintTextColor(Color.RED);
+                    edtdialogTilte.setHintTextColor(Color.RED);
+                    edtdialogPrice.setHintTextColor(Color.RED);
+
+                } else {
+                    try {
+                        database.QueryData(sql);
+                        Toast.makeText(getContext(), "Add OK", Toast.LENGTH_SHORT).show();
+                    } catch (Exception ex) {
+                        AlertErrorDialog();
+                    }
 
 //                arrayList.add(new ClassBook(idid),tilte,author,price));
-                database.getDataClass("");
-                arrayList.clear();
-                adapterLop.notifyDataSetChanged();
-                showlist("");
-                dialog.dismiss();
+                    database.getDataClass("");
+                    arrayList.clear();
+                    adapterLop.notifyDataSetChanged();
+                    showlist("");
+                    dialog.dismiss();
+                }
+
             }
 
 //              database.QueryData(database.addBook(new ClassBook(0,tilte,author,price)));
 
         });
+
         dialog.show();
     }
 
