@@ -43,11 +43,11 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE + "'");
         String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
                 KEY_ID_TABLE + " INTEGER PRIMARY KEY AUTOINCREMENT," +//
-                KEY_ID + " WARCHAR," +
-                KEY_NAME + " WARCHAR," +
-                KEY_CLASS + " WARCHAR," +
-                KEY_GENDER + " WARCHAR," +
-                KEY_BIRTHDAY + " WARCHAR)";
+                KEY_ID + " VARCHAR," +
+                KEY_NAME + " VARCHAR," +
+                KEY_CLASS + " VARCHAR," +
+                KEY_GENDER + " VARCHAR," +
+                KEY_BIRTHDAY + " VARCHAR)";
         db.execSQL(CREATE_TABLE);
 
     }

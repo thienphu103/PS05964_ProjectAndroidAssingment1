@@ -79,14 +79,14 @@ public class TabListViewSV extends Fragment {
         SinhVien a=new SinhVien(R.drawable.studenticon);
         arrayList.add(a);
         showlist("");
-edtsearch.addTextChangedListener(new TextWatcher() {
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        edtsearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    }
+            }
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 //Toast.makeText(getContext(),"aaa",Toast.LENGTH_LONG).show();
 
                 Log.d("text", edtsearch.getText().toString());
@@ -96,13 +96,13 @@ edtsearch.addTextChangedListener(new TextWatcher() {
                 showlist(edtsearch.getText().toString());
                 Toast.makeText(getContext(), "Search OK", Toast.LENGTH_SHORT).show();
 
-    }
+            }
 
-    @Override
-    public void afterTextChanged(Editable s) {
+            @Override
+            public void afterTextChanged(Editable s) {
 
-    }
-});
+            }
+        });
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
