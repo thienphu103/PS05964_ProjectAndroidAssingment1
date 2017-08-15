@@ -13,20 +13,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a.assignmnet.Adapter.AdapterSinhVien;
+import com.example.a.assignmnet.Class.Lop;
 import com.example.a.assignmnet.Class.SinhVien;
 import com.example.a.assignmnet.R;
 import com.example.a.assignmnet.SQL.SQLite;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TabListViewSV extends Fragment {
     private static final String TAG = "Tab1Fragment";
@@ -34,7 +38,8 @@ public class TabListViewSV extends Fragment {
     public ArrayList<SinhVien> arrayList;
     private AdapterSinhVien adapterSinhVien;
     Dialog dialog;
-    SQLite database;
+    public SQLite database;
+    public SQLite databaseclass;
     Button btnadd;
     EditText edtsearch;
     TextView txtdialogname;
@@ -48,7 +53,8 @@ public class TabListViewSV extends Fragment {
     RadioGroup radioGroup;
     RadioButton radioButtonMale;
     RadioButton radioButtonFemale;
-    String Gender="";
+    String Gender = "";
+    Spinner spinner;
 
 
     @Nullable
@@ -65,19 +71,17 @@ public class TabListViewSV extends Fragment {
         edtsearch = (EditText) view.findViewById(R.id.edtSearch);
         edtdialogID = (EditText) view.findViewById(R.id.dialogID);
         edtdialogTilte = (EditText) view.findViewById(R.id.dialogTILTE);
-        edtdialogAuthor = (EditText) view.findViewById(R.id.dialogAUTHOR);
         edtdialogPrice = (EditText) view.findViewById(R.id.dialogPRICE);
         btndialogup = (Button) view.findViewById(R.id.dialogbtnUP);
         btndialogdel = (Button) view.findViewById(R.id.dialogbtnDEL);
         btnsearch = (Button) view.findViewById(R.id.btnSearch);
         txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
-        radioGroup= (RadioGroup) view.findViewById(R.id.radioGroup_character);
+        radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup_character);
         radioButtonMale = (RadioButton) view.findViewById(R.id.radioButton_male);
-        radioButtonFemale  =  (RadioButton)view.findViewById(R.id.radioButton_female);
+        radioButtonFemale = (RadioButton) view.findViewById(R.id.radioButton_female);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
 //        database.getDataBook("");
         arrayList.clear();
-        SinhVien a=new SinhVien(R.drawable.studenticon);
-        arrayList.add(a);
         showlist("");
         edtsearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -168,12 +172,33 @@ public class TabListViewSV extends Fragment {
                         dialog.dismiss();
                     }
                 });
+                spinner = (Spinner) dialog.findViewById(R.id.spinner);
+                edtdialogID.setText("");
+                edtdialogPrice.setText("");
+                edtdialogTilte.setText("");
+                List<Lop> list = new ArrayList<>();
+                databaseclass = new SQLite(getContext(), "Class3.sqlite", null, 1);
+                list = databaseclass.getDataClassSpinner("");
+                ArrayAdapter<Lop> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, list);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        Toast.makeText(getContext(), spinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
                 btndialogup.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String id = edtdialogID.getText().toString();
                         String name = edtdialogTilte.getText().toString();
-                        String lop = edtdialogAuthor.getText().toString();
+                        String lop =spinner.getSelectedItem().toString().substring(0,spinner.getSelectedItem().toString().indexOf("-"));
                         String bir = edtdialogPrice.getText().toString();
                         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                             @Override
@@ -186,9 +211,8 @@ public class TabListViewSV extends Fragment {
                             }
                         });
                         RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
-
-                        String gender=Gender=rb.getText().toString();
-                        final String sql = database.update(id, name, lop,gender, bir, indextext);
+                        String gender = Gender = rb.getText().toString();
+                        final String sql = database.update(id, name, lop, gender, bir, indextext);
                         try {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setTitle("Update");
@@ -238,23 +262,39 @@ public class TabListViewSV extends Fragment {
         dialog.setTitle("Add Book");
         edtdialogID = (EditText) dialog.findViewById(R.id.dialogID);
         edtdialogTilte = (EditText) dialog.findViewById(R.id.dialogTILTE);
-        edtdialogAuthor = (EditText) dialog.findViewById(R.id.dialogAUTHOR);
         edtdialogPrice = (EditText) dialog.findViewById(R.id.dialogPRICE);
         btndialogup = (Button) dialog.findViewById(R.id.dialogbtnUP);
         btndialogdel = (Button) dialog.findViewById(R.id.dialogbtnDEL);
-        radioGroup= (RadioGroup) dialog.findViewById(R.id.radioGroup_character);
+        radioGroup = (RadioGroup) dialog.findViewById(R.id.radioGroup_character);
         radioButtonMale = (RadioButton) dialog.findViewById(R.id.radioButton_male);
-        radioButtonFemale  =  (RadioButton)dialog.findViewById(R.id.radioButton_female);
+        radioButtonFemale = (RadioButton) dialog.findViewById(R.id.radioButton_female);
+        spinner = (Spinner) dialog.findViewById(R.id.spinner);
         edtdialogID.setText("");
         edtdialogPrice.setText("");
         edtdialogTilte.setText("");
-        edtdialogAuthor.setText("");
+        List<Lop> list = new ArrayList<>();
+        databaseclass = new SQLite(getContext(), "Class3.sqlite", null, 1);
+        list = databaseclass.getDataClassSpinner("");
+        ArrayAdapter<Lop> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getContext(), spinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         btndialogup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id = edtdialogID.getText().toString();
                 String name = edtdialogTilte.getText().toString();
-                String lop = edtdialogAuthor.getText().toString();
+                String lop =spinner.getSelectedItem().toString().substring(0,spinner.getSelectedItem().toString().indexOf("-"));
                 String bir = edtdialogPrice.getText().toString();
                 radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
@@ -268,8 +308,8 @@ public class TabListViewSV extends Fragment {
                 });
                 RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
 
-                String gender=Gender=rb.getText().toString();
-                final String sql = database.add(id, name, lop,gender, bir);
+                String gender = Gender = rb.getText().toString();
+                final String sql = database.add(id, name, lop, gender, bir);
                 try {
                     database.QueryData(sql);
                     Toast.makeText(getContext(), "Add OK", Toast.LENGTH_SHORT).show();

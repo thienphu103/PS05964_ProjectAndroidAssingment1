@@ -1,87 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="350sp"
+    android:layout_width="350sp"
     android:layout_height="match_parent"
-    >
-<TextView
-    android:id="@+id/dialogName"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Name Book"
-    android:textSize="30sp"
-    android:paddingBottom="20sp"
-    android:gravity="center"/>
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/dialogName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="20sp"
+        android:text="Name Book"
+        android:textSize="30sp" />
 
     <EditText
         android:id="@+id/dialogTILTE"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:hint="Name Sudent"/>
+        android:layout_height="wrap_content"
+        android:hint="Name Sudent" />
+
     <EditText
         android:id="@+id/dialogID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="ID"
+        android:hint="ID" />
 
-        />
-    <EditText
-        android:id="@+id/dialogAUTHOR"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:hint="Class Student"/>
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/selection"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gender:"
-        android:textSize="20sp"/>
+        android:background="#007380"
+        android:hint="selected class"
+        android:textColor="#ff003c" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"
+        android:layout_marginRight="20sp"
+        android:layout_marginBottom="20sp"/>
+
+    <TextView
+        android:id="@+id/selection1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ff69b4"
+        android:hint="selected Gender"
+        android:textColor="#ff003c" />
+
     <RadioGroup
+        android:id="@+id/radioGroup_character"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView2"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:id="@+id/radioGroup_character">
+        android:orientation="horizontal">
 
         <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Male"
             android:id="@+id/radioButton_male"
-            android:layout_marginRight="20sp"
-            android:checked="true" />
-
-        <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Female"
+            android:layout_marginRight="20sp"
+            android:checked="true"
+            android:text="Male" />
+
+        <RadioButton
             android:id="@+id/radioButton_female"
-            android:checked="false" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="Female" />
     </RadioGroup>
+
     <EditText
         android:id="@+id/dialogPRICE"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:hint="Birthday Year"/>
+        android:layout_height="wrap_content"
+        android:hint="Birthday Year" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/dialogbtnUP"
             android:layout_width="100sp"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/edit"
-            android:text="Update"/>
+            android:text="Update" />
+
         <Button
             android:id="@+id/dialogbtnDEL"
             android:layout_width="100sp"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/del"
-            android:text="Delete"/>
+            android:text="Delete" />
     </LinearLayout>
-    
+
 </LinearLayout>

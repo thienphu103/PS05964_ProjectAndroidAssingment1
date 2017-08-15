@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.a.assignmnet.Class.Lop;
 import com.example.a.assignmnet.Class.SinhVien;
 
 import java.util.ArrayList;
@@ -21,8 +22,13 @@ public class SQLite extends SQLiteOpenHelper {
     private static final String KEY_GENDER = "GENDER";
     private static final String KEY_CLASS = "CLASS";
     private static final String KEY_BIRTHDAY = "BIRTHDAY";
-    ArrayList<SinhVien> arrayList = new ArrayList<>();
 
+    private static final String TABLE_CLASS = "CLASS";
+    private static final String KEY_ID_TABLE_CLASS = "ID_TABLE_CLASS";
+    private static final String KEY_ID_CLASS = "ID_CLASS";
+    private static final String KEY_NAME_CLASS = "NAME_CLASS";
+    ArrayList<SinhVien> arrayList = new ArrayList<>();
+    ArrayList<Lop> arrayListClass = new ArrayList<>();
     public SQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -41,14 +47,21 @@ public class SQLite extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE + "'");
-        String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
+        db.execSQL("DROP TABLE IF EXISTS '" + TABLE_CLASS + "'");
+        String CREATE_TABLE_STUDENT = "CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
                 KEY_ID_TABLE + " INTEGER PRIMARY KEY AUTOINCREMENT," +//
                 KEY_ID + " VARCHAR," +
                 KEY_NAME + " VARCHAR," +
                 KEY_CLASS + " VARCHAR," +
                 KEY_GENDER + " VARCHAR," +
                 KEY_BIRTHDAY + " VARCHAR)";
-        db.execSQL(CREATE_TABLE);
+        String CREATE_TABLE_CLASS = "CREATE TABLE IF NOT EXISTS " + TABLE_CLASS + "(" +
+                KEY_ID_TABLE_CLASS + " INTEGER PRIMARY KEY AUTOINCREMENT," +//
+                KEY_ID_CLASS + " VARCHAR," +
+                KEY_NAME_CLASS + " VARCHAR)";
+        db.execSQL(CREATE_TABLE_STUDENT);
+        db.execSQL(CREATE_TABLE_CLASS);
+
 
     }
 
@@ -59,16 +72,16 @@ public class SQLite extends SQLiteOpenHelper {
 
     public ArrayList<SinhVien> getData(String name) {
         arrayList.clear();
-      String sql= "SELECT * FROM " + TABLE + "";
+        String sql = "SELECT * FROM " + TABLE + "";
         Cursor cursor = GetData(sql);
         while (cursor.moveToNext()) {
-            String id_table=cursor.getString(0);
+            String id_table = cursor.getString(0);
             String id = cursor.getString(1);
             String ten = cursor.getString(2);
             String lop = cursor.getString(3);
             String gt = cursor.getString(4);
             String bir = cursor.getString(5);
-            arrayList.add(new SinhVien(id, ten, lop,gt, bir));
+            arrayList.add(new SinhVien(id, ten, lop, gt, bir));
         }
 
         return arrayList;
@@ -76,16 +89,17 @@ public class SQLite extends SQLiteOpenHelper {
 
     public ArrayList<SinhVien> getSearch(String name) {
         arrayList.clear();
-        String sql= "SELECT * FROM " + TABLE + " WHERE " + KEY_NAME + " LIKE '%"+name+"%'";;
+        String sql = "SELECT * FROM " + TABLE + " WHERE " + KEY_NAME + " LIKE '%" + name + "%'";
+        ;
         Cursor cursor = GetData(sql);
         while (cursor.moveToNext()) {
-            String id_table=cursor.getString(0);
+            String id_table = cursor.getString(0);
             String id = cursor.getString(1);
             String ten = cursor.getString(2);
             String lop = cursor.getString(3);
             String gt = cursor.getString(4);
             String bir = cursor.getString(5);
-            arrayList.add(new SinhVien(id, ten, lop,gt, bir));
+            arrayList.add(new SinhVien(id, ten, lop, gt, bir));
         }
 
         return arrayList;
@@ -101,7 +115,7 @@ public class SQLite extends SQLiteOpenHelper {
         return Deletebook;
     }
 
-    public String add(String id, String name, String lop,String gt, String bir) {
+    public String add(String id, String name, String lop, String gt, String bir) {
         String AddData = "INSERT INTO " + TABLE + " VALUES(" +
                 "null," +
                 "'" + id + "'," +
@@ -113,7 +127,7 @@ public class SQLite extends SQLiteOpenHelper {
         return AddData;
     }
 
-    public String update(String id, String name, String lop,String gt, String bir, String idup) {
+    public String update(String id, String name, String lop, String gt, String bir, String idup) {
 //        String UpdateData="UPDATE " +TABLE+"   VALUES ('"+id+"', '"+tilte+"', '"+author+"','"+price+"'), WHERE " + KEY_ID + "='" + idup + "'";
         String UpdateData = "UPDATE " + TABLE + " SET " + KEY_ID + "='" + id + "'" +
 //                "null," +
@@ -124,6 +138,76 @@ public class SQLite extends SQLiteOpenHelper {
                 " WHERE ID='" + idup + "'";//Update
         return UpdateData;
     }
+//TABLE CLASS
+    public ArrayList<Lop> getDataClass(String name) {
+        arrayListClass.clear();
+        String sql = "SELECT * FROM " + TABLE_CLASS + "";
+        Cursor cursor = GetData(sql);
+        while (cursor.moveToNext()) {
+            String id_table = cursor.getString(0);
+            String id = cursor.getString(1);
+            String ten = cursor.getString(2);
 
+            arrayListClass.add(new Lop(id, ten));
+        }
+
+        return arrayListClass;
+    }
+    public ArrayList<Lop> getDataClassSpinner(String name) {
+        arrayListClass.clear();
+        String sql = "SELECT * FROM " + TABLE_CLASS + "";
+        Cursor cursor = GetData(sql);
+        while (cursor.moveToNext()) {
+            String id_table = cursor.getString(0);
+            String id = cursor.getString(1);
+            String ten = cursor.getString(2);
+
+            arrayListClass.add(new Lop(id, ten));
+        }
+
+        return arrayListClass;
+    }
+    public ArrayList<Lop> getSearchClass(String name) {
+        arrayList.clear();
+        String sql = "SELECT * FROM " + TABLE_CLASS + " WHERE " + KEY_NAME_CLASS + " LIKE '%" + name + "%'";
+        ;
+        Cursor cursor = GetData(sql);
+        while (cursor.moveToNext()) {
+            String id_table = cursor.getString(0);
+            String id = cursor.getString(1);
+            String ten = cursor.getString(2);
+            arrayListClass.add(new Lop(id, ten));
+        }
+
+        return arrayListClass;
+    }
+
+//    public String getBook() {
+//        String Getbook = "SELECT * FROM " + TABLE + "";
+//        return Getbook;
+//    }
+
+    public String deleteClass(String id) {
+        String Deletebook = "DELETE FROM " + TABLE_CLASS + " WHERE " + KEY_ID_CLASS + "='" + id + "'";//Detete row name & id
+        return Deletebook;
+    }
+
+    public String addClass(String id, String name) {
+        String AddData = "INSERT INTO " + TABLE_CLASS + " VALUES(" +
+                "null," +
+                "'" + id + "'," +
+                "'" + name + "')";
+//        String AddData = "INSERT INTO " + TABLE + " VALUES('" + classBook.id + "','" + classBook.tilte + "','" + classBook.author + "','" + classBook.price + "')";
+        return AddData;
+    }
+
+    public String updateClass(String id, String name, String idup) {
+//        String UpdateData="UPDATE " +TABLE+"   VALUES ('"+id+"', '"+tilte+"', '"+author+"','"+price+"'), WHERE " + KEY_ID + "='" + idup + "'";
+        String UpdateData = "UPDATE " + TABLE_CLASS + " SET " + KEY_ID_CLASS + "='" + id + "'" +
+//                "null," +
+                " , " + KEY_NAME_CLASS + "='" + name + "'" +
+                " WHERE " + KEY_ID_CLASS + "='" + idup + "'";//Update
+        return UpdateData;
+    }
 
 }

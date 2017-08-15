@@ -105,7 +105,8 @@ public class AdapterSinhVien extends BaseAdapter {
         viewHolder.txtClass.setText(sinhVien.getLop());
         viewHolder.txtBir.setText(sinhVien.getBirthday());
         viewHolder.txtGen.setText(sinhVien.getGender());
-        viewHolder.ivImg.setImageResource(sinhVien.getUrlHinh());
+//        viewHolder.ivImg.setImageResource(sinhVien.getUrlHinh());
+        viewHolder.ivImg.setImageResource(R.drawable.studenticon);
         return convertView;
     }
 }

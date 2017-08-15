@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new TabListViewSV(), "Student");
         adapter.addFragment(new TabListViewClass(), "Class");
-        adapter.addFragment(new TabListViewProfile(), "Profile");
+        adapter.addFragment(new TabListViewProfile(), "About");
         viewPager.setAdapter(adapter);
     }
 

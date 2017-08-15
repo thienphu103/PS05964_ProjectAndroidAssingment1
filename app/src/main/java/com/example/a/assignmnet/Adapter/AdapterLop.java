@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.a.assignmnet.Class.Lop;
 import com.example.a.assignmnet.R;
-import com.example.a.assignmnet.Class.SinhVien;
 
 import java.util.List;
 
@@ -21,12 +21,12 @@ public class AdapterLop extends BaseAdapter {
 
     Context context;
     int layout;
-    List<SinhVien> LopList;
+    List<Lop> LopList;
 
-    public AdapterLop(Context context, int layout, List<SinhVien> sinhVienList) {
+    public AdapterLop(Context context, int layout, List<Lop> LopsvList) {
         this.context = context;
         this.layout = layout;
-        this.LopList = sinhVienList;
+        this.LopList =LopsvList ;
     }
 
     public Context getContext() {
@@ -45,12 +45,12 @@ public class AdapterLop extends BaseAdapter {
         this.layout = layout;
     }
 
-    public List<SinhVien> getSinhVienList() {
+    public List<Lop> getLopsvList() {
         return LopList;
     }
 
-    public void setSinhVienList(List<SinhVien> sinhVienList) {
-        this.LopList = sinhVienList;
+    public void setLopsvList(List<Lop> LopsvList) {
+        this.LopList = LopsvList;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class AdapterLop extends BaseAdapter {
     }
 
     private class ViewHolder {
-        TextView txtName, txtId,txtClass,txtBir;
+        TextView txtName, txtId,txtClass,txtBir,txtGen;
         ImageView ivImg;
     }
 
@@ -88,6 +88,7 @@ public class AdapterLop extends BaseAdapter {
             viewHolder.txtName = (TextView) convertView.findViewById(R.id.textViewName);
             viewHolder.txtId = (TextView) convertView.findViewById(R.id.textViewId);
             viewHolder.txtClass = (TextView) convertView.findViewById(R.id.textViewClass);
+            viewHolder.txtGen = (TextView) convertView.findViewById(R.id.textViewGender);
             viewHolder.txtBir = (TextView) convertView.findViewById(R.id.textViewBir);
             viewHolder.ivImg = (ImageView) convertView.findViewById(R.id.imageViewImage);
 
@@ -96,13 +97,17 @@ public class AdapterLop extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        SinhVien sinhVien = LopList.get(position);
+        Lop Lop = LopList.get(position);
 
-        viewHolder.txtName.setText(sinhVien.getName());
-        viewHolder.txtId.setText(sinhVien.getId());
-        viewHolder.txtClass.setText(sinhVien.getLop());
-        viewHolder.txtBir.setText(sinhVien.getBirthday());
-        viewHolder.ivImg.setImageResource(sinhVien.getUrlHinh());
+        viewHolder.txtName.setText(Lop.getId());
+        viewHolder.txtId.setText(Lop.getName());
+        viewHolder.txtClass.setVisibility(View.INVISIBLE);
+        viewHolder.txtGen.setVisibility(View.INVISIBLE);
+        viewHolder.txtBir.setVisibility(View.INVISIBLE);
+
+//        viewHolder.ivImg.setImageResource(Lop.getUrlHinh());
+        viewHolder.ivImg.setImageResource(R.drawable.classicon);
         return convertView;
     }
+
 }

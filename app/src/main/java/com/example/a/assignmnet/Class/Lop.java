@@ -15,6 +15,14 @@ public class Lop {
         this.urlHinh = urlHinh;
     }
 
+    public Lop(String name, String id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    public Lop() {
+    }
+
     public String getName() {
         return name;
     }
@@ -37,5 +45,10 @@ public class Lop {
 
     public void setUrlHinh(int urlHinh) {
         this.urlHinh = urlHinh;
+    }
+
+    @Override
+    public String toString() {
+        return name +"-"+ id ;
     }
 }

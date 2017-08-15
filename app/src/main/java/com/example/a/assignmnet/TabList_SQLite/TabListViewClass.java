@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +18,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a.assignmnet.Adapter.AdapterLop;
-import com.example.a.assignmnet.Class.SinhVien;
+import com.example.a.assignmnet.Class.Lop;
 import com.example.a.assignmnet.R;
 import com.example.a.assignmnet.SQL.SQLite;
 
@@ -29,7 +32,7 @@ import java.util.ArrayList;
 public class TabListViewClass extends Fragment {
     private static final String TAG = "Tab2Fragment";
     ListView listView;
-    public ArrayList<SinhVien> arrayList;
+    public ArrayList<Lop> arrayList;
     private AdapterLop adapterLop;
     Dialog dialog;
     SQLite database;
@@ -47,6 +50,7 @@ public class TabListViewClass extends Fragment {
     RadioButton radioButtonMale;
     RadioButton radioButtonFemale;
     String Gender;
+    Spinner spinner;
 
 
     @Nullable
@@ -56,14 +60,14 @@ public class TabListViewClass extends Fragment {
         //AX
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.activity_dialog);
-        database = new SQLite(getContext(), "Class2.sqlite", null, 1);
+        TabListViewSV sv=new TabListViewSV();
+        database =new  SQLite(getContext(), "Class3.sqlite", null, 1);
         arrayList = new ArrayList<>();
         listView = (ListView) view.findViewById(R.id.listviewbook);
         btnadd = (Button) view.findViewById(R.id.btnAdd);
         edtsearch = (EditText) view.findViewById(R.id.edtSearch);
         edtdialogID = (EditText) view.findViewById(R.id.dialogID);
         edtdialogTilte = (EditText) view.findViewById(R.id.dialogTILTE);
-        edtdialogAuthor = (EditText) view.findViewById(R.id.dialogAUTHOR);
         edtdialogPrice = (EditText) view.findViewById(R.id.dialogPRICE);
         btndialogup = (Button) view.findViewById(R.id.dialogbtnUP);
         btndialogdel = (Button) view.findViewById(R.id.dialogbtnDEL);
@@ -72,10 +76,33 @@ public class TabListViewClass extends Fragment {
         radioButtonMale = (RadioButton) view.findViewById(R.id.radioButton_male);
         radioButtonFemale  =  (RadioButton)view.findViewById(R.id.radioButton_female);
         txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
-//        database.getDataBook("");
+//        database.getDataClassBook("");
         arrayList.clear();
         showlist("");
+        edtsearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//Toast.makeText(getContext(),"aaa",Toast.LENGTH_LONG).show();
+
+                Log.d("text", edtsearch.getText().toString());
+                arrayList.clear();
+                adapterLop.notifyDataSetChanged();
+//                database.getSearchBook("");
+                showlist(edtsearch.getText().toString());
+                Toast.makeText(getContext(), "Search OK", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,9 +127,8 @@ public class TabListViewClass extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 final int index = i;
-                SinhVien a = new SinhVien();
-                final String indextext = arrayList.get(index).getId() + "";
-                ;
+                Lop a = new Lop();
+                final String indextext = arrayList.get(index).getName() + "";
                 Log.d("index", index + "  " + indextext);
                 txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
 //                final String namedialog=indextext.substring(indextext.indexOf("\n")+1,indextext.indexOf("\n"));
@@ -113,7 +139,7 @@ public class TabListViewClass extends Fragment {
                 btndialogdel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final String sql = database.delete(indextext);
+                        final String sql = database.deleteClass(indextext);
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setTitle("Delete");
                         builder.setMessage("Can You Detele " + arrayList.get(index).getName() + " class?");
@@ -122,7 +148,7 @@ public class TabListViewClass extends Fragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 database.QueryData(sql);
                                 Toast.makeText(getContext(), "Delete OK", Toast.LENGTH_SHORT).show();
-                                database.getData("");
+                                database.getDataClass("");
                                 adapterLop.notifyDataSetChanged();
                             }
 
@@ -134,7 +160,7 @@ public class TabListViewClass extends Fragment {
                             }
                         });
                         builder.show();
-                        database.getData("");
+                        database.getDataClass("");
                         arrayList.clear();
                         adapterLop.notifyDataSetChanged();
                         showlist("");
@@ -146,8 +172,6 @@ public class TabListViewClass extends Fragment {
                     public void onClick(View view) {
                         String id = edtdialogID.getText().toString();
                         String tilte = edtdialogTilte.getText().toString();
-                        String author = edtdialogAuthor.getText().toString();
-                        String price = edtdialogPrice.getText().toString();
                         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                             @Override
                             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -161,7 +185,7 @@ public class TabListViewClass extends Fragment {
                         RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
 
                         String gender=Gender=rb.getText().toString();
-                        final String sql = database.update(id, tilte, author,gender, price, indextext);
+                        final String sql = database.updateClass(id, tilte, indextext);
                         try {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setTitle("Update");
@@ -171,7 +195,7 @@ public class TabListViewClass extends Fragment {
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     database.QueryData(sql);
                                     Toast.makeText(getContext(), "Update OK", Toast.LENGTH_SHORT).show();
-                                    database.getData("");
+                                    database.getDataClass("");
                                     adapterLop.notifyDataSetChanged();
                                 }
 
@@ -187,7 +211,7 @@ public class TabListViewClass extends Fragment {
                             AlertErrorDialog();
                         }
 //                arrayList.add(new ClassBook(idid),tilte,author,price));
-                        database.getData("");
+                        database.getDataClass("");
                         arrayList.clear();
                         adapterLop.notifyDataSetChanged();
                         showlist("");
@@ -208,10 +232,9 @@ public class TabListViewClass extends Fragment {
 
 
     public void DialogBook() {
-        dialog.setTitle("Add Book");
+        dialog.setTitle("Add Class");
         edtdialogID = (EditText) dialog.findViewById(R.id.dialogID);
         edtdialogTilte = (EditText) dialog.findViewById(R.id.dialogTILTE);
-        edtdialogAuthor = (EditText) dialog.findViewById(R.id.dialogAUTHOR);
         edtdialogPrice = (EditText) dialog.findViewById(R.id.dialogPRICE);
         btndialogup = (Button) dialog.findViewById(R.id.dialogbtnUP);
         btndialogdel = (Button) dialog.findViewById(R.id.dialogbtnDEL);
@@ -220,29 +243,19 @@ public class TabListViewClass extends Fragment {
         radioButtonFemale  =  (RadioButton)dialog.findViewById(R.id.radioButton_female);
         edtdialogID.setText("");
         edtdialogPrice.setText("");
-        edtdialogTilte.setText("");
-        edtdialogAuthor.setText("");
+        radioGroup.setVisibility(View.INVISIBLE);
+        radioButtonMale.setVisibility(View.INVISIBLE);
+        radioButtonFemale.setVisibility(View.INVISIBLE);
+        edtdialogPrice.setVisibility(View.INVISIBLE);
+        spinner = (Spinner) dialog.findViewById(R.id.spinner);
+        spinner.setVisibility(View.INVISIBLE);
         btndialogup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id = edtdialogID.getText().toString();
                 String tilte = edtdialogTilte.getText().toString();
-                String author = edtdialogAuthor.getText().toString();
-                String price = edtdialogPrice.getText().toString();
-                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        RadioButton rb = (RadioButton) group.findViewById(checkedId);
-                        if (null != rb && checkedId > -1) {
-                            Toast.makeText(getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-                RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
-
-                String gender=Gender=rb.getText().toString();
-                final String sql = database.add(id, tilte, author,gender, price);
+//
+                final String sql = database.addClass(id, tilte);
                 try {
                     database.QueryData(sql);
                     Toast.makeText(getContext(), "Add OK", Toast.LENGTH_SHORT).show();
@@ -251,7 +264,7 @@ public class TabListViewClass extends Fragment {
                 }
 
 //                arrayList.add(new ClassBook(idid),tilte,author,price));
-                database.getData("");
+                database.getDataClass("");
                 arrayList.clear();
                 adapterLop.notifyDataSetChanged();
                 showlist("");
@@ -279,9 +292,9 @@ public class TabListViewClass extends Fragment {
 
     public void showlist(String name) {
         if (name.equals("")) {
-            arrayList = database.getData("");
+            arrayList = database.getDataClass("");
         } else {
-            arrayList = database.getSearch(edtsearch.getText().toString());
+            arrayList = database.getSearchClass(edtsearch.getText().toString());
         }
 
 
