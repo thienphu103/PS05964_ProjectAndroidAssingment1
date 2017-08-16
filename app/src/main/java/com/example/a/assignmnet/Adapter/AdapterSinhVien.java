@@ -101,8 +101,8 @@ public class AdapterSinhVien extends BaseAdapter {
         SinhVien sinhVien = sinhVienList.get(position);
 
         viewHolder.txtName.setText(sinhVien.getName());
-        viewHolder.txtId.setText(sinhVien.getId());
-        viewHolder.txtClass.setText(sinhVien.getLop());
+        viewHolder.txtId.setText("PS0"+sinhVien.getId());
+        viewHolder.txtClass.setText("PT"+sinhVien.getLop());
         viewHolder.txtBir.setText(sinhVien.getBirthday());
         viewHolder.txtGen.setText(sinhVien.getGender());
 //        viewHolder.ivImg.setImageResource(sinhVien.getUrlHinh());

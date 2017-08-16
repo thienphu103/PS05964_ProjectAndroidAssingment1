@@ -40,7 +40,7 @@ public class MainActivityLogin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_login);
-        database = new SQLite(getApplicationContext(), "register2.sqlite", null, 1);
+        database = new SQLite(getApplicationContext(), "register5.sqlite", null, 1);
         arrayList = new ArrayList<>();
         arrayList = database.getDataRe("");
         OnClick();

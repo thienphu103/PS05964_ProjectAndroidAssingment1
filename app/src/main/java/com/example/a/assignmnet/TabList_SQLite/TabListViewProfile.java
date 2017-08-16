@@ -36,7 +36,6 @@ public class TabListViewProfile extends Fragment {
         database = new SQLite(getContext(), "register2.sqlite", null, 1);
         arrayList = new ArrayList<>();
         arrayList = database.getDataRe("");
-
         btnTEST = (Button) view.findViewById(R.id.btnLogin);
         for (int i = 0; i < arrayList.size(); i++) {
             info += arrayList.get(i).toString();

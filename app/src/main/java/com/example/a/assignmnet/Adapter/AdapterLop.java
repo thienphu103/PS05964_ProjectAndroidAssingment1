@@ -91,7 +91,6 @@ public class AdapterLop extends BaseAdapter {
             viewHolder.txtGen = (TextView) convertView.findViewById(R.id.textViewGender);
             viewHolder.txtBir = (TextView) convertView.findViewById(R.id.textViewBir);
             viewHolder.ivImg = (ImageView) convertView.findViewById(R.id.imageViewImage);
-
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -100,11 +99,10 @@ public class AdapterLop extends BaseAdapter {
         Lop Lop = LopList.get(position);
 
         viewHolder.txtName.setText(Lop.getId());
-        viewHolder.txtId.setText(Lop.getName());
+        viewHolder.txtId.setText("PT"+Lop.getName());
         viewHolder.txtClass.setVisibility(View.INVISIBLE);
         viewHolder.txtGen.setVisibility(View.INVISIBLE);
         viewHolder.txtBir.setVisibility(View.INVISIBLE);
-
 //        viewHolder.ivImg.setImageResource(Lop.getUrlHinh());
         viewHolder.ivImg.setImageResource(R.drawable.classicon);
         return convertView;

@@ -150,7 +150,7 @@ public class TabListViewSV extends Fragment {
                     SinhVien a = new SinhVien();
                     final String indextext = arrayList.get(index).getId() + "";
 
-                    Log.d("index", index + "  " + indextext);
+                    Log.d("indextxt", index + "  " + indextext);
                     txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
 //                final String namedialog=indextext.substring(indextext.indexOf("\n")+1,indextext.indexOf("\n"));
                     DialogBook();
