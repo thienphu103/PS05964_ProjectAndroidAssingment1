@@ -29,9 +29,12 @@ public class MainActivityLogin extends AppCompatActivity {
     public TextView txts1;
     public TextView txts2;
     public TextView txts3;
+    public TextView user;
+    public TextView email;
     SQLite database;
     public static int admin=0;
     public ArrayList<Resgiter> arrayList;
+    String infouser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,7 @@ public class MainActivityLogin extends AppCompatActivity {
                     for (int i = 0; i < arrayList.size(); i++) {
                         if (arrayList.get(i).getUser().equalsIgnoreCase(text)) {
                             usertest=1;
+                            infouser=arrayList.get(i).getUser();
                         }
                         if (arrayList.get(i).getPass().equalsIgnoreCase(pass)) {
                             passtest=1;
@@ -122,6 +126,7 @@ public class MainActivityLogin extends AppCompatActivity {
                         }
 
                 } else {
+
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivityLogin.this);
 
                     alertDialogBuilder.setMessage("User and Pass Not Correct\n" +
@@ -129,6 +134,7 @@ public class MainActivityLogin extends AppCompatActivity {
                     alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
+
                             Intent intent = new Intent(MainActivityLogin.this, MainActivity.class);
                             startActivity(intent);
 

@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.example.a.assignmnet.Adapter.SectionsPageAdapter;
 import com.example.a.assignmnet.R;
 import com.example.a.assignmnet.TabList_SQLite.TabListViewClass;
@@ -28,14 +29,13 @@ public class MainActivity extends AppCompatActivity
 
     private ViewPager mViewPager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+
 
     }
 
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent =new Intent(MainActivity.this,MainActivityLogin.class);
+            Intent intent = new Intent(MainActivity.this, MainActivityLogin.class);
             startActivity(intent);
             return true;
         }
@@ -108,19 +110,26 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-//            Intent intent =new Intent(MainActivity.this,TabListViewSV.class);
+//            Intent intent =new Intent(NavigationActivity.this,ListViewStudent.class);
 //            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-//            Intent intent =new Intent(MainActivity.this,TabListViewClass.class);
+//            Intent intent =new Intent(NavigationActivity.this,ListViewClass.class);
 //            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            MainActivityLogin login =new MainActivityLogin();
+           login.admin=0;
+            Intent intent =new Intent(MainActivity.this,MainActivityLogin.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_send) {
-
+            MainActivityLogin login =new MainActivityLogin();
+            login.admin=0;
+            Intent intent =new Intent(MainActivity.this,MainActivityLogin.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

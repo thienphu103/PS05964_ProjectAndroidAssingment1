@@ -13,23 +13,24 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewDB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         app:srcCompat="@drawable/person_big" />
 
     <TextView
+        android:id="@+id/TextViewtUserDB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Thiện Phú"
+        android:text="@string/info_user"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/TextViewEmailDB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="phulvtps05964@fpt.edu.vn" />
+        android:text="@string/info_email" />
 
 </LinearLayout>

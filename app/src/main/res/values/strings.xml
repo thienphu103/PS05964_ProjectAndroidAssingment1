@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Assignmnet</string>
     <string name="title_activity_navigation">NavigationActivity</string>
-
+    <string
+        id="@+id/string_user"
+        name="info_user">User</string>
+    <string name="info_email">user@fpt.edu.vn</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

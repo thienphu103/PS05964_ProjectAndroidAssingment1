@@ -146,6 +146,7 @@ public class TabListViewClass extends Fragment {
                     txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
 //                final String namedialog=indextext.substring(indextext.indexOf("\n")+1,indextext.indexOf("\n"));
                     DialogBook();
+                    btndialogup.setText("Update");
                     btndialogdel.setVisibility(View.VISIBLE);
                     dialog.setTitle("Update and Delete");
                     txtdialogname.setText(arrayList.get(index).getName());

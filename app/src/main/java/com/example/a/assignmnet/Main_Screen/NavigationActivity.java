@@ -12,8 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
-import com.example.a.assignmnet.ListView_NotUsed.ListViewClass;
-import com.example.a.assignmnet.ListView_NotUsed.ListViewStudent;
 import com.example.a.assignmnet.R;
 
 public class NavigationActivity extends AppCompatActivity
@@ -85,19 +83,22 @@ public class NavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Intent intent =new Intent(NavigationActivity.this,ListViewStudent.class);
-            startActivity(intent);
+//            Intent intent =new Intent(NavigationActivity.this,ListViewStudent.class);
+//            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-            Intent intent =new Intent(NavigationActivity.this,ListViewClass.class);
-            startActivity(intent);
+//            Intent intent =new Intent(NavigationActivity.this,ListViewClass.class);
+//            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            Intent intent =new Intent(NavigationActivity.this,MainActivityLogin.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_send) {
-
+            Intent intent =new Intent(NavigationActivity.this,MainActivityLogin.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
