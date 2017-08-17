@@ -1,6 +1,8 @@
 package com.example.a.assignmnet.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.a.assignmnet.R;
 import com.example.a.assignmnet.Class.SinhVien;
+import com.example.a.assignmnet.R;
 
 import java.util.List;
 
@@ -69,8 +71,8 @@ public class AdapterSinhVien extends BaseAdapter {
     }
 
     private class ViewHolder {
-        TextView txtName, txtId,txtClass,txtBir,txtGen;
-        ImageView ivImg;
+        TextView txtName, txtId, txtClass, txtBir, txtGen;
+        ImageView ivImage;
     }
 
     @Override
@@ -80,17 +82,14 @@ public class AdapterSinhVien extends BaseAdapter {
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
-
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
             convertView = inflater.inflate(layout, null);
-
             viewHolder.txtName = (TextView) convertView.findViewById(R.id.textViewName);
             viewHolder.txtId = (TextView) convertView.findViewById(R.id.textViewId);
             viewHolder.txtClass = (TextView) convertView.findViewById(R.id.textViewClass);
             viewHolder.txtGen = (TextView) convertView.findViewById(R.id.textViewGender);
             viewHolder.txtBir = (TextView) convertView.findViewById(R.id.textViewBir);
-            viewHolder.ivImg = (ImageView) convertView.findViewById(R.id.imageViewImage);
+            viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.imageViewImage);
 
 
             convertView.setTag(viewHolder);
@@ -98,15 +97,23 @@ public class AdapterSinhVien extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        SinhVien sinhVien = sinhVienList.get(position);
+        SinhVien sv = sinhVienList.get(position);
+        viewHolder.txtName.setText(sv.getName());
+        viewHolder.txtId.setText("PS0" + sv.getId());
+        viewHolder.txtClass.setText("PT" + sv.getLop());
+        viewHolder.txtBir.setText(sv.getBirthday());
+        viewHolder.txtGen.setText(sv.getGender());
+//        Bitmap bitmap = BitmapFactory.decodeByteArray(sinhVien.getImage(),0,sinhVien.getImage().length);
+//        viewHolder.ivImage.setImageBitmap(bitmap);
 
-        viewHolder.txtName.setText(sinhVien.getName());
-        viewHolder.txtId.setText("PS0"+sinhVien.getId());
-        viewHolder.txtClass.setText("PT"+sinhVien.getLop());
-        viewHolder.txtBir.setText(sinhVien.getBirthday());
-        viewHolder.txtGen.setText(sinhVien.getGender());
+//    Log.d("image",bitmap+"");
 //        viewHolder.ivImg.setImageResource(sinhVien.getUrlHinh());
-        viewHolder.ivImg.setImageResource(R.drawable.studenticon);
+//        viewHolder.ivImage.setImageBitmap(bitmap);
+        byte[]hinhanh = sv.getImage();
+        Bitmap bitmap = BitmapFactory.decodeByteArray(hinhanh, 0, hinhanh.length);
+//        Bitmap bitmap=BitmapFactory.decodeResource(getContext().getResources(),R.drawable.student);
+        viewHolder.ivImage.setImageBitmap(bitmap);
+//        viewHolder.ivImage.setImageResource(R.drawable.studenticon);
         return convertView;
     }
 }

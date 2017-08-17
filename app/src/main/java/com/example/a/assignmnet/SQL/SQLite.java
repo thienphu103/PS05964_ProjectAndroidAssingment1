@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class SQLite extends SQLiteOpenHelper {
     private static final String TABLE = "STUDENT";
     private static final String KEY_ID_TABLE = "ID_TABLE";
-    private static final String KEY_ID = "ID";
+    private static final String KEY_IMAGE = "IMAGE";
     private static final String KEY_NAME = "NAME";
     private static final String KEY_GENDER = "GENDER";
     private static final String KEY_CLASS = "CLASS";
@@ -60,7 +60,7 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE_REGISTER + "'");
         String CREATE_TABLE_STUDENT = "CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
                 KEY_ID_TABLE + " INTEGER PRIMARY KEY ," +//AUTOINCREMENT
-                KEY_ID + " VARCHAR," +
+                KEY_IMAGE + " BLOB," +
                 KEY_NAME + " VARCHAR," +
                 KEY_CLASS + " VARCHAR," +
                 KEY_GENDER + " VARCHAR," +
@@ -93,12 +93,12 @@ public class SQLite extends SQLiteOpenHelper {
         Cursor cursor = GetData(sql);
         while (cursor.moveToNext()) {
             String id_table = cursor.getString(0);
-            String id = cursor.getString(1);
+            byte[] image = cursor.getBlob(1);
             String ten = cursor.getString(2);
             String lop = cursor.getString(3);
             String gt = cursor.getString(4);
             String bir = cursor.getString(5);
-            arrayList.add(new SinhVien(id_table, ten, lop, gt, bir));
+            arrayList.add(new SinhVien(id_table,image, ten, lop, gt, bir));
         }
 
         return arrayList;
@@ -107,18 +107,16 @@ public class SQLite extends SQLiteOpenHelper {
     public ArrayList<SinhVien> getSearch(String name) {
         arrayList.clear();
         String sql = "SELECT * FROM " + TABLE + " WHERE " + KEY_NAME + " LIKE '%" + name + "%'";
-        ;
         Cursor cursor = GetData(sql);
         while (cursor.moveToNext()) {
             String id_table = cursor.getString(0);
-            String id = cursor.getString(1);
+            byte[] image = cursor.getBlob(1);
             String ten = cursor.getString(2);
             String lop = cursor.getString(3);
             String gt = cursor.getString(4);
             String bir = cursor.getString(5);
-            arrayList.add(new SinhVien(id_table, ten, lop, gt, bir));
+            arrayList.add(new SinhVien(id_table,image, ten, lop, gt, bir));
         }
-
         return arrayList;
     }
 
@@ -132,10 +130,10 @@ public class SQLite extends SQLiteOpenHelper {
         return Deletebook;
     }
 
-    public String addStu(String id, String name, String lop, String gt, String bir) {
+    public String addStu(String id,byte[] anh ,String name, String lop, String gt, String bir) {
         String AddData = "INSERT INTO " + TABLE + " VALUES(" +
                 "'" + id + "'," +
-                "null," +
+                "'" + anh + "'," +
                 "'" + name + "'," +
                 "'" + lop + "'," +
                 "'" + gt + "'," +
@@ -143,6 +141,22 @@ public class SQLite extends SQLiteOpenHelper {
 //        String AddData = "INSERT INTO " + TABLE + " VALUES('" + classBook.id + "','" + classBook.tilte + "','" + classBook.author + "','" + classBook.price + "')";
         return AddData;
     }
+
+//    public void addStu(String id,byte[] anh ,String name, String lop, String gt, String bir) {
+//        String sql = "INSERT INTO  STUDENT  VALUES (?, ?, ? , ?, ?,?)";
+//        SQLiteDatabase database = getWritableDatabase();
+//        SQLiteStatement statement = database.compileStatement(sql);
+//        statement.clearBindings();
+//        statement.bindString(0, id);
+//        statement.bindBlob(1, anh);
+//        statement.bindString(2, name);
+//        statement.bindString(3, lop);
+//        statement.bindString(4, gt);
+//        statement.bindString(5, bir);
+//        statement.executeInsert();
+//    }
+
+
 
     public String update(String id, String name, String lop, String gt, String bir, String idup) {
 //        String UpdateData="UPDATE " +TABLE+"   VALUES ('"+id+"', '"+tilte+"', '"+author+"','"+price+"'), WHERE " + KEY_ID + "='" + idup + "'";
@@ -256,5 +270,6 @@ public class SQLite extends SQLiteOpenHelper {
 //        String AddData = "INSERT INTO " + TABLE + " VALUES('" + classBook.id + "','" + classBook.tilte + "','" + classBook.author + "','" + classBook.price + "')";
         return AddData;
     }
+
 
 }

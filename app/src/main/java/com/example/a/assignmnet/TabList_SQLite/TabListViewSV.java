@@ -1,8 +1,13 @@
 package com.example.a.assignmnet.TabList_SQLite;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +22,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,8 +38,12 @@ import com.example.a.assignmnet.Main_Screen.MainActivityLogin;
 import com.example.a.assignmnet.R;
 import com.example.a.assignmnet.SQL.SQLite;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.a.assignmnet.R.id.imageView;
 
 public class TabListViewSV extends Fragment {
     private static final String TAG = "Tab1Fragment";
@@ -57,6 +68,9 @@ public class TabListViewSV extends Fragment {
     RadioButton radioButtonFemale;
     String Gender = "";
     Spinner spinner;
+    ImageButton imageButton;
+    ImageView imageV;
+    Bitmap imagebipmap;
 
 
     @Nullable
@@ -66,7 +80,7 @@ public class TabListViewSV extends Fragment {
         //AX
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.activity_dialog);
-        database = new SQLite(getContext(), "Student2.sqlite", null, 1);
+        database = new SQLite(getContext(), "Student7.sqlite", null, 1);
         arrayList = new ArrayList<>();
         listView = (ListView) view.findViewById(R.id.listviewbook);
         btnadd = (Button) view.findViewById(R.id.btnAdd);
@@ -84,9 +98,9 @@ public class TabListViewSV extends Fragment {
         spinner = (Spinner) view.findViewById(R.id.spinner);
         arrayList.clear();
         showlist("");
-        MainActivityLogin login =new MainActivityLogin();
-        Log.d("key",login.admin+"");
-        if(login.admin==0){
+        MainActivityLogin login = new MainActivityLogin();
+        Log.d("key", login.admin + "");
+        if (login.admin == 0) {
             btnadd.setVisibility(View.INVISIBLE);
 
 
@@ -135,14 +149,14 @@ public class TabListViewSV extends Fragment {
                 Toast.makeText(getContext(), "Search OK", Toast.LENGTH_SHORT).show();
             }
         });
-        if(login.admin==0){
+        if (login.admin == 0) {
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                     return false;
                 }
             });
-        }else {
+        } else {
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -298,13 +312,15 @@ public class TabListViewSV extends Fragment {
         radioButtonMale = (RadioButton) dialog.findViewById(R.id.radioButton_male);
         radioButtonFemale = (RadioButton) dialog.findViewById(R.id.radioButton_female);
         spinner = (Spinner) dialog.findViewById(R.id.spinner);
+        imageButton = (ImageButton) dialog.findViewById(R.id.btnImage);
+        imageV = (ImageView) dialog.findViewById(imageView);
         edtdialogID.setText("");
         edtdialogPrice.setText("");
         edtdialogTilte.setText("");
         List<Lop> list = new ArrayList<>();
         databaseclass = new SQLite(getContext(), "Class3.sqlite", null, 1);
         list = databaseclass.getDataClassSpinner("");
-        ArrayAdapter<Lop> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, list);
+        final ArrayAdapter<Lop> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -325,7 +341,9 @@ public class TabListViewSV extends Fragment {
                 String name = edtdialogTilte.getText().toString();
                 String lop = spinner.getSelectedItem().toString().substring(0, spinner.getSelectedItem().toString().indexOf("-"));
                 String bir = edtdialogPrice.getText().toString();
+                imageButton = (ImageButton) dialog.findViewById(R.id.btnImage);
 
+                imageV = (ImageView) dialog.findViewById(imageView);
                 radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -339,7 +357,12 @@ public class TabListViewSV extends Fragment {
                 RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
 
                 String gender = Gender = rb.getText().toString();
-                final String sql = database.addStu(id, name, lop, gender, bir);
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) imageV.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                byte[]Image = outputStream.toByteArray();
+                final String sql = database.addStu(id,Image, name, lop, gender, bir);
                 if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty() || edtdialogPrice.getText().toString().isEmpty()) {
                     edtdialogID.setHint("Input ID ");
                     edtdialogPrice.setHint("Input Birthday Year");
@@ -350,7 +373,8 @@ public class TabListViewSV extends Fragment {
 
                 } else {
                     try {
-                        database.QueryData(sql);
+//                        database.QueryData(sql);
+                        database.addStu(id,Image, name, lop, gender, bir);
                         Toast.makeText(getContext(), "Add OK", Toast.LENGTH_SHORT).show();
                     } catch (Exception ex) {
                         AlertErrorDialog();
@@ -367,6 +391,17 @@ public class TabListViewSV extends Fragment {
             }
 
 //              database.QueryData(database.addBook(new ClassBook(0,tilte,author,price)));
+
+        });
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // To Gallery
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, 999);
+            }
 
         });
         dialog.show();
@@ -396,8 +431,35 @@ public class TabListViewSV extends Fragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 999 && resultCode == Activity.RESULT_OK) {
+            try {
+                InputStream in = getActivity().getContentResolver().openInputStream(data.getData());
+                Bitmap bitmap = BitmapFactory.decodeStream(in);
+                imagebipmap=bitmap;
+                imageV.setImageBitmap(imagebipmap);
+                in.close();
+
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    public static byte[] imageViewToByte(ImageView image) {
+        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
+    }
 
 }
+
+
+
+
+
 
 
 

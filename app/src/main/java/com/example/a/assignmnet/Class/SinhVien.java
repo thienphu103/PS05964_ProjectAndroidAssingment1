@@ -10,18 +10,15 @@ public class SinhVien {
     public String lop;
     public String gender;
     public String birthday;
-    public int urlHinh;
+    public byte[] image;
 
-    public SinhVien(String id, String name, String lop, String gender, String birthday) {
+    public SinhVien(String id, byte[] image ,String name, String lop, String gender, String birthday) {
         this.id = id;
-        this.name = name;
+        this.image = image;
         this.lop = lop;
         this.gender = gender;
         this.birthday = birthday;
-    }
-
-    public SinhVien(int urlHinh) {
-        this.urlHinh = urlHinh;
+        this.name = name;
     }
 
     public String getGender() {
@@ -67,12 +64,11 @@ public class SinhVien {
         this.birthday = birthday;
     }
 
-    public int getUrlHinh() {
-        return urlHinh;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setUrlHinh(int urlHinh) {
-        this.urlHinh = urlHinh;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
-
 }

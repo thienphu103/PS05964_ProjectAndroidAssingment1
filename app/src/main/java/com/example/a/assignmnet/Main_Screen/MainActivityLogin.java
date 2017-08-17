@@ -134,7 +134,6 @@ public class MainActivityLogin extends AppCompatActivity {
                     alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
-
                             Intent intent = new Intent(MainActivityLogin.this, MainActivity.class);
                             startActivity(intent);
 
@@ -159,4 +158,5 @@ public class MainActivityLogin extends AppCompatActivity {
         /**/
 
     }
+
 }
