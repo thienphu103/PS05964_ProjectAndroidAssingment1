@@ -345,7 +345,7 @@ public class TabListViewSV extends Fragment {
             public void onClick(View view) {
                 String id = edtdialogID.getText().toString();
                 String name = edtdialogTilte.getText().toString();
-                String lop = spinner.getSelectedItem().toString().substring(0, spinner.getSelectedItem().toString().indexOf("-"));
+
                 String bir = edtdialogPrice.getText().toString();
                 imageButton = (ImageButton) dialog.findViewById(R.id.btnImage);
 
@@ -379,10 +379,11 @@ public class TabListViewSV extends Fragment {
 
                 } else {
                     try {
+                        String lop = spinner.getSelectedItem().toString().substring(0, spinner.getSelectedItem().toString().indexOf("-"));
                         database.addStu(id,Image, name, lop, gender, bir);
 //                        database.QueryData(sql);
                         Toast.makeText(getContext(), "Add OK", Toast.LENGTH_SHORT).show();
-                    } catch (Exception ex) {
+                    } catch (Exception ex){
                         Log.d("error",ex.toString());
                         AlertErrorDialog();
                     }
@@ -417,7 +418,7 @@ public class TabListViewSV extends Fragment {
     public void AlertErrorDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Error");
-        builder.setMessage("ID Exist, Please input other Id.Tks");
+        builder.setMessage("Class not Exist or Null, Please Add Class ");
         builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
