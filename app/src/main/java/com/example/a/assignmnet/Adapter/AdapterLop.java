@@ -80,11 +80,8 @@ public class AdapterLop extends BaseAdapter {
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
-
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
             convertView = inflater.inflate(layout, null);
-
             viewHolder.txtName = (TextView) convertView.findViewById(R.id.textViewName);
             viewHolder.txtId = (TextView) convertView.findViewById(R.id.textViewId);
             viewHolder.txtClass = (TextView) convertView.findViewById(R.id.textViewClass);
@@ -97,7 +94,6 @@ public class AdapterLop extends BaseAdapter {
         }
 
         Lop Lop = LopList.get(position);
-
         viewHolder.txtName.setText(Lop.getId());
         viewHolder.txtId.setText("PT"+Lop.getName());
         viewHolder.txtClass.setVisibility(View.INVISIBLE);

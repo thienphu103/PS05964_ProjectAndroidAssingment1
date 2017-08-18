@@ -4,7 +4,9 @@ package com.example.a.assignmnet.Main_Screen;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.example.a.assignmnet.Class.Resgiter;
 import com.example.a.assignmnet.R;
 import com.example.a.assignmnet.SQL.SQLite;
+import com.example.a.assignmnet.TabList_SQLite.TabListViewSV_UserSearch;
 
 import java.util.ArrayList;
 
@@ -35,15 +38,33 @@ public class MainActivityLogin extends AppCompatActivity {
     public static int admin=0;
     public ArrayList<Resgiter> arrayList;
     String infouser;
+    AnimationDrawable anim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_login);
+        ConstraintLayout container = (ConstraintLayout) findViewById(R.id.container);
+        anim = (AnimationDrawable) container.getBackground();
+        anim.setEnterFadeDuration(6000);
+        anim.setExitFadeDuration(2000);
         database = new SQLite(getApplicationContext(), "register5.sqlite", null, 1);
         arrayList = new ArrayList<>();
         arrayList = database.getDataRe("");
         OnClick();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (anim != null && !anim.isRunning())
+            anim.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (anim != null && anim.isRunning())
+            anim.stop();
     }
 
     public void OnClick() {
@@ -93,30 +114,23 @@ public class MainActivityLogin extends AppCompatActivity {
 
                     }
                     Log.d("Integer",usertest+""+passtest);
-                    if(usertest==1&&passtest==1) {
+                    if(txt1.getText().toString().equals("admin")&&txt2.getText().toString().equals("123456")) {
                         admin=1;
-                        Toast.makeText(getApplicationContext(), "Login Ok", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Login Admin OK", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Welcome Admin !!!", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                     }
-                        else if(!(usertest==1&&passtest==1)){
+                        else if((usertest==1&&passtest==1)){
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivityLogin.this);
 
-                            alertDialogBuilder.setMessage("Username and Password Not Correct\n" +
-                                    "You want to log in as guest");
+                            alertDialogBuilder.setMessage("Username and Password OK \n" +
+                                    "Please Click Ok Login App");
                             alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface arg0, int arg1) {
-                                    Intent intent = new Intent(MainActivityLogin.this, MainActivity.class);
+                                    Intent intent = new Intent(MainActivityLogin.this, TabListViewSV_UserSearch.class);
                                     startActivity(intent);
-
-                                }
-                            });
-
-                            alertDialogBuilder.setNegativeButton("Try Again", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
 
                                 }
                             });
@@ -134,7 +148,7 @@ public class MainActivityLogin extends AppCompatActivity {
                     alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
-                            Intent intent = new Intent(MainActivityLogin.this, MainActivity.class);
+                            Intent intent = new Intent(MainActivityLogin.this, TabListViewSV_UserSearch.class);
                             startActivity(intent);
 
                         }
@@ -159,4 +173,6 @@ public class MainActivityLogin extends AppCompatActivity {
 
     }
 
-}
+    }
+
+

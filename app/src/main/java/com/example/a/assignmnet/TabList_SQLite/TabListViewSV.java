@@ -98,6 +98,7 @@ public class TabListViewSV extends Fragment {
         spinner = (Spinner) view.findViewById(R.id.spinner);
         arrayList.clear();
         showlist("");
+
         MainActivityLogin login = new MainActivityLogin();
         Log.d("key", login.admin + "");
         if (login.admin == 0) {
@@ -114,7 +115,6 @@ public class TabListViewSV extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 //Toast.makeText(getContext(),"aaa",Toast.LENGTH_LONG).show();
-
                 Log.d("text", edtsearch.getText().toString());
                 arrayList.clear();
                 adapterSinhVien.notifyDataSetChanged();
@@ -163,7 +163,6 @@ public class TabListViewSV extends Fragment {
                     final int index = i;
                     SinhVien a = new SinhVien();
                     final String indextext = arrayList.get(index).getId_table() + "";
-
                     Log.d("indextxt", index + "  " + indextext);
                     txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
 //                final String namedialog=indextext.substring(indextext.indexOf("\n")+1,indextext.indexOf("\n"));

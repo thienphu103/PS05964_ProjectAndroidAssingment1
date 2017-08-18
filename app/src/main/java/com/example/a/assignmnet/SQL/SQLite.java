@@ -125,6 +125,41 @@ public class SQLite extends SQLiteOpenHelper {
         return arrayList;
     }
 
+    public ArrayList<SinhVien> getSearchStudentByClass(String name) {
+        arrayList.clear();
+        String sql = "SELECT * FROM " + TABLE + " WHERE " + KEY_CLASS + " LIKE '%" + name + "%'";
+        Cursor cursor = GetData(sql);
+        while (cursor.moveToNext()) {
+            String id_table = cursor.getString(0);
+            String id = cursor.getString(1);
+            byte[] image = cursor.getBlob(2);
+            String ten = cursor.getString(3);
+            String lop = cursor.getString(4);
+            String gt = cursor.getString(5);
+            String bir = cursor.getString(6);
+            arrayList.add(new SinhVien(id_table,id,image, ten, lop, gt, bir));
+        }
+        return arrayList;
+    }
+
+    public ArrayList<SinhVien> getSearchStudentCustom(String col,String name) {
+        arrayList.clear();
+        String sql = "SELECT * FROM " + TABLE + " WHERE " + col + " LIKE '%" + name + "%'";
+        Cursor cursor = GetData(sql);
+        while (cursor.moveToNext()) {
+            String id_table = cursor.getString(0);
+            String id = cursor.getString(1);
+            byte[] image = cursor.getBlob(2);
+            String ten = cursor.getString(3);
+            String lop = cursor.getString(4);
+            String gt = cursor.getString(5);
+            String bir = cursor.getString(6);
+            arrayList.add(new SinhVien(id_table,id,image, ten, lop, gt, bir));
+        }
+        return arrayList;
+    }
+
+
 //    public String getBook() {
 //        String Getbook = "SELECT * FROM " + TABLE + "";
 //        return Getbook;

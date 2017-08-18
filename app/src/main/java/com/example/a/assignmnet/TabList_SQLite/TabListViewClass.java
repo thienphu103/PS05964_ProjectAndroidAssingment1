@@ -2,6 +2,7 @@ package com.example.a.assignmnet.TabList_SQLite;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -30,6 +33,8 @@ import com.example.a.assignmnet.R;
 import com.example.a.assignmnet.SQL.SQLite;
 
 import java.util.ArrayList;
+
+import static com.example.a.assignmnet.R.id.imageView;
 
 public class TabListViewClass extends Fragment {
     private static final String TAG = "Tab2Fragment";
@@ -53,6 +58,9 @@ public class TabListViewClass extends Fragment {
     RadioButton radioButtonFemale;
     String Gender;
     Spinner spinner;
+    ImageView imageV;
+    ImageButton imageButton;
+
 
 
     @Nullable
@@ -81,8 +89,8 @@ public class TabListViewClass extends Fragment {
 //        database.getDataClassBook("");
         arrayList.clear();
         showlist("");
-        MainActivityLogin login =new MainActivityLogin();
-        if(login.admin==0){
+        MainActivityLogin login = new MainActivityLogin();
+        if (login.admin == 0) {
             btnadd.setVisibility(View.INVISIBLE);
         }
         edtsearch.addTextChangedListener(new TextWatcher() {
@@ -128,93 +136,66 @@ public class TabListViewClass extends Fragment {
                 Toast.makeText(getContext(), "Search OK", Toast.LENGTH_SHORT).show();
             }
         });
-        if(login.admin==0){
-           listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-               @Override
-               public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                   return false;
-               }
-           });
-        }else {
+        if (login.admin == 0) {
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    return false;
+                }
+            });
+        } else {
+
+
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                     final int index = i;
                     Lop a = new Lop();
                     final String indextext = arrayList.get(index).getName() + "";
-                    Log.d("index", index + "  " + indextext);
-                    txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
-//                final String namedialog=indextext.substring(indextext.indexOf("\n")+1,indextext.indexOf("\n"));
-                    DialogBook();
-                    btndialogup.setText("Update");
-                    btndialogdel.setVisibility(View.VISIBLE);
-                    dialog.setTitle("Update and Delete");
-                    txtdialogname.setText(arrayList.get(index).getName());
-                    btndialogdel.setOnClickListener(new View.OnClickListener() {
+                    final String idclasstext=arrayList.get(index).getName()+"";
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Question");
+                    builder.setIcon(R.drawable.question);
+                    builder.setMessage("Show Student by Class or Edit & Delete Class");
+                    builder.setNeutralButton("Show Student", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(View view) {
-                            final String sql = database.deleteClass(indextext);
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle("Delete");
-                            builder.setMessage("Can You Detele " + arrayList.get(index).getName() + " class?");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    database.QueryData(sql);
-                                    Toast.makeText(getContext(), "Delete OK", Toast.LENGTH_SHORT).show();
-                                    database.getDataClass("");
-                                    adapterLop.notifyDataSetChanged();
-                                }
-
-                            });
-                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                }
-                            });
-                            builder.show();
-                            database.getDataClass("");
-                            arrayList.clear();
-                            adapterLop.notifyDataSetChanged();
-                            showlist("");
-                            dialog.dismiss();
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent=new Intent(getContext(),TabListViewSVbyClass.class);
+                            Bundle mBundle = new Bundle();
+                            mBundle.putString("studentbyclass",idclasstext );
+                            intent.putExtras(mBundle);
+                            startActivity(intent);
                         }
+
                     });
-                    btndialogup.setOnClickListener(new View.OnClickListener() {
+                    builder.setPositiveButton("Edit % Delete", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(View view) {
-                            String id = edtdialogID.getText().toString();
-                            String tilte = edtdialogTilte.getText().toString();
-                            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            Log.d("index", index + "  " + indextext);
+                            txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
+                            imageButton = (ImageButton) dialog.findViewById(R.id.btnImage);
+                            imageV = (ImageView) dialog.findViewById(imageView);
+                            imageV.setImageResource(R.drawable.classicon);
+                            imageButton.setVisibility(View.INVISIBLE);
+//                final String namedialog=indextext.substring(indextext.indexOf("\n")+1,indextext.indexOf("\n"));
+                            DialogBook();
+                            btndialogup.setText("Update");
+                            btndialogdel.setVisibility(View.VISIBLE);
+                            dialog.setTitle("Update and Delete");
+                            txtdialogname.setText(arrayList.get(index).getId());
+                            btndialogdel.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                                    RadioButton rb = (RadioButton) group.findViewById(checkedId);
-                                    if (null != rb && checkedId > -1) {
-                                        Toast.makeText(getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }
-                            });
-                            RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
-
-                            String gender = Gender = rb.getText().toString();
-                            final String sql = database.updateClass(id, tilte, indextext);
-                            if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty() ) {
-                                edtdialogID.setHint("Input ID ");
-                                edtdialogTilte.setHint("Input Name");
-                                edtdialogID.setHintTextColor(Color.RED);
-                                edtdialogTilte.setHintTextColor(Color.RED);
-                            } else {
-                                try {
+                                public void onClick(View view) {
+                                    final String sql = database.deleteClass(indextext);
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setTitle("Update");
-                                    builder.setMessage("Can You Update " + arrayList.get(index).getName() + " to " + tilte + "  class?");
+                                    builder.setTitle("Delete");
+                                    builder.setMessage("Can You Detele " + arrayList.get(index).getName() + " class?");
                                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             database.QueryData(sql);
-                                            Toast.makeText(getContext(), "Update OK", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Delete OK", Toast.LENGTH_SHORT).show();
                                             database.getDataClass("");
                                             adapterLop.notifyDataSetChanged();
                                         }
@@ -227,27 +208,89 @@ public class TabListViewClass extends Fragment {
                                         }
                                     });
                                     builder.show();
-                                } catch (Exception ex) {
-                                    AlertErrorDialog();
+                                    database.getDataClass("");
+                                    arrayList.clear();
+                                    adapterLop.notifyDataSetChanged();
+                                    showlist("");
+                                    dialog.dismiss();
                                 }
+                            });
+                            btndialogup.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    String id = edtdialogID.getText().toString();
+                                    String tilte = edtdialogTilte.getText().toString();
+                                    radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                        @Override
+                                        public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                            RadioButton rb = (RadioButton) group.findViewById(checkedId);
+                                            if (null != rb && checkedId > -1) {
+                                                Toast.makeText(getContext(), rb.getText(), Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }
+                                    });
+                                    RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+
+                                    String gender = Gender = rb.getText().toString();
+                                    final String sql = database.updateClass(id, tilte, indextext);
+                                    if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty()) {
+                                        edtdialogID.setHint("Input ID ");
+                                        edtdialogTilte.setHint("Input Name");
+                                        edtdialogID.setHintTextColor(Color.RED);
+                                        edtdialogTilte.setHintTextColor(Color.RED);
+                                    } else {
+                                        try {
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                            builder.setTitle("Update");
+                                            builder.setMessage("Can You Update " + arrayList.get(index).getName() + " to " + tilte + "  class?");
+                                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    database.QueryData(sql);
+                                                    Toast.makeText(getContext(), "Update OK", Toast.LENGTH_SHORT).show();
+                                                    database.getDataClass("");
+                                                    adapterLop.notifyDataSetChanged();
+                                                }
+
+                                            });
+                                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                }
+                                            });
+                                            builder.show();
+                                        } catch (Exception ex) {
+                                            AlertErrorDialog();
+                                        }
 //                arrayList.add(new ClassBook(idid),tilte,author,price));
-                                database.getDataClass("");
-                                arrayList.clear();
-                                adapterLop.notifyDataSetChanged();
-                                showlist("");
-                                dialog.dismiss();
-                            }
+                                        database.getDataClass("");
+                                        arrayList.clear();
+                                        adapterLop.notifyDataSetChanged();
+                                        showlist("");
+                                        dialog.dismiss();
+                                    }
 
 
 //              database.QueryData(database.addBook(new ClassBook(0,tilte,author,price)));
-                        }
-                    });
+                                }
 
+                            });
+
+                        }
+
+                    });
+                    builder.show();
                     return false;
 
                 }
+
             });
+
         }
+
+
         adapterLop = new AdapterLop(getActivity(), R.layout.info_sv, arrayList);
         listView.setAdapter(adapterLop);
         return view;
@@ -264,6 +307,7 @@ public class TabListViewClass extends Fragment {
         radioGroup = (RadioGroup) dialog.findViewById(R.id.radioGroup_character);
         radioButtonMale = (RadioButton) dialog.findViewById(R.id.radioButton_male);
         radioButtonFemale = (RadioButton) dialog.findViewById(R.id.radioButton_female);
+        radioButtonFemale = (RadioButton) dialog.findViewById(R.id.radioButton_female);
         edtdialogID.setText("");
         edtdialogPrice.setText("");
         radioGroup.setVisibility(View.INVISIBLE);
@@ -272,6 +316,10 @@ public class TabListViewClass extends Fragment {
         edtdialogPrice.setVisibility(View.INVISIBLE);
         spinner = (Spinner) dialog.findViewById(R.id.spinner);
         spinner.setVisibility(View.INVISIBLE);
+        imageButton = (ImageButton) dialog.findViewById(R.id.btnImage);
+        imageV = (ImageView) dialog.findViewById(imageView);
+        imageV.setImageResource(R.drawable.classicon);
+        imageButton.setVisibility(View.INVISIBLE);
         btndialogup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -279,7 +327,7 @@ public class TabListViewClass extends Fragment {
                 String tilte = edtdialogTilte.getText().toString();
 //
                 final String sql = database.addClass(id, tilte);
-                if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty() ) {
+                if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty()) {
                     edtdialogID.setHint("Input ID Class ");
                     edtdialogTilte.setHint("Input Name Class");
                     edtdialogID.setHintTextColor(Color.RED);

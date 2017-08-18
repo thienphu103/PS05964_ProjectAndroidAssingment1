@@ -26,6 +26,7 @@ public class SinhVien {
     }
 
     public SinhVien(String id_table, String id, byte[] image , String name, String lop, String gender, String birthday) {
+        this.id_table = id_table;
         this.id = id;
         this.image = image;
         this.lop = lop;

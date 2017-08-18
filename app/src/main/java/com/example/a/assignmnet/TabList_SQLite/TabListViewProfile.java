@@ -33,7 +33,7 @@ public class TabListViewProfile extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main_profile, container, false);
-        database = new SQLite(getContext(), "register2.sqlite", null, 1);
+        database = new SQLite(getContext(), "register5.sqlite", null, 1);
         arrayList = new ArrayList<>();
         arrayList = database.getDataRe("");
         btnTEST = (Button) view.findViewById(R.id.btnLogin);

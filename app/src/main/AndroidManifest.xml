@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Main_Screen.SubActivity" />
+        <activity android:name=".TabList_SQLite.TabListViewSV_UserSearch" />
         <activity
             android:name=".Main_Screen.NavigationActivity"
             android:label="@string/title_activity_navigation"
@@ -45,7 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main_Screen.InfoUser" />
+        <activity android:name=".TabList_SQLite.TabListViewSVbyClass" />
     </application>
 
 </manifest>
