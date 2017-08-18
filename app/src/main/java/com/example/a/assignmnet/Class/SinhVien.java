@@ -6,13 +6,26 @@ package com.example.a.assignmnet.Class;
 
 public class SinhVien {
     public String id;
+    public String id_table;
     public String name;
     public String lop;
     public String gender;
     public String birthday;
     public byte[] image;
 
-    public SinhVien(String id, byte[] image ,String name, String lop, String gender, String birthday) {
+    public SinhVien(String id_table) {
+        this.id_table = id_table;
+    }
+
+    public String getId_table() {
+        return id_table;
+    }
+
+    public void setId_table(String id_table) {
+        this.id_table = id_table;
+    }
+
+    public SinhVien(String id_table, String id, byte[] image , String name, String lop, String gender, String birthday) {
         this.id = id;
         this.image = image;
         this.lop = lop;
@@ -20,6 +33,14 @@ public class SinhVien {
         this.birthday = birthday;
         this.name = name;
     }
+
+//        public SinhVien( byte[] image ,String name, String lop, String gender, String birthday) {
+//        this.image = image;
+//        this.lop = lop;
+//        this.gender = gender;
+//        this.birthday = birthday;
+//        this.name = name;
+//    }
 
     public String getGender() {
         return gender;

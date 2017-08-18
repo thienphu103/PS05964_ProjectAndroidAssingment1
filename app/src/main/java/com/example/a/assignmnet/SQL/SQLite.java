@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 
 import com.example.a.assignmnet.Class.Lop;
 import com.example.a.assignmnet.Class.Resgiter;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class SQLite extends SQLiteOpenHelper {
     private static final String TABLE = "STUDENT";
     private static final String KEY_ID_TABLE = "ID_TABLE";
+    private static final String KEY_ID = "ID";
     private static final String KEY_IMAGE = "IMAGE";
     private static final String KEY_NAME = "NAME";
     private static final String KEY_GENDER = "GENDER";
@@ -59,7 +61,8 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE_CLASS + "'");
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE_REGISTER + "'");
         String CREATE_TABLE_STUDENT = "CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
-                KEY_ID_TABLE + " INTEGER PRIMARY KEY ," +//AUTOINCREMENT
+                KEY_ID_TABLE + " INTEGER PRIMARY KEY AUTOINCREMENT," +//
+                KEY_ID + " INTEGER ," +//AUTOINCREMENT
                 KEY_IMAGE + " BLOB," +
                 KEY_NAME + " VARCHAR," +
                 KEY_CLASS + " VARCHAR," +
@@ -93,12 +96,13 @@ public class SQLite extends SQLiteOpenHelper {
         Cursor cursor = GetData(sql);
         while (cursor.moveToNext()) {
             String id_table = cursor.getString(0);
-            byte[] image = cursor.getBlob(1);
-            String ten = cursor.getString(2);
-            String lop = cursor.getString(3);
-            String gt = cursor.getString(4);
-            String bir = cursor.getString(5);
-            arrayList.add(new SinhVien(id_table,image, ten, lop, gt, bir));
+            String id = cursor.getString(1);
+            byte[] image = cursor.getBlob(2);
+            String ten = cursor.getString(3);
+            String lop = cursor.getString(4);
+            String gt = cursor.getString(5);
+            String bir = cursor.getString(6);
+            arrayList.add(new SinhVien(id_table,id,image, ten, lop, gt, bir));
         }
 
         return arrayList;
@@ -110,12 +114,13 @@ public class SQLite extends SQLiteOpenHelper {
         Cursor cursor = GetData(sql);
         while (cursor.moveToNext()) {
             String id_table = cursor.getString(0);
-            byte[] image = cursor.getBlob(1);
-            String ten = cursor.getString(2);
-            String lop = cursor.getString(3);
-            String gt = cursor.getString(4);
-            String bir = cursor.getString(5);
-            arrayList.add(new SinhVien(id_table,image, ten, lop, gt, bir));
+            String id = cursor.getString(1);
+            byte[] image = cursor.getBlob(2);
+            String ten = cursor.getString(3);
+            String lop = cursor.getString(4);
+            String gt = cursor.getString(5);
+            String bir = cursor.getString(6);
+            arrayList.add(new SinhVien(id_table,id,image, ten, lop, gt, bir));
         }
         return arrayList;
     }
@@ -130,45 +135,70 @@ public class SQLite extends SQLiteOpenHelper {
         return Deletebook;
     }
 
-    public String addStu(String id,byte[] anh ,String name, String lop, String gt, String bir) {
-        String AddData = "INSERT INTO " + TABLE + " VALUES(" +
-                "'" + id + "'," +
-                "'" + anh + "'," +
-                "'" + name + "'," +
-                "'" + lop + "'," +
-                "'" + gt + "'," +
-                "'" + bir + "')";
-//        String AddData = "INSERT INTO " + TABLE + " VALUES('" + classBook.id + "','" + classBook.tilte + "','" + classBook.author + "','" + classBook.price + "')";
-        return AddData;
-    }
-
-//    public void addStu(String id,byte[] anh ,String name, String lop, String gt, String bir) {
-//        String sql = "INSERT INTO  STUDENT  VALUES (?, ?, ? , ?, ?,?)";
-//        SQLiteDatabase database = getWritableDatabase();
-//        SQLiteStatement statement = database.compileStatement(sql);
-//        statement.clearBindings();
-//        statement.bindString(0, id);
-//        statement.bindBlob(1, anh);
-//        statement.bindString(2, name);
-//        statement.bindString(3, lop);
-//        statement.bindString(4, gt);
-//        statement.bindString(5, bir);
-//        statement.executeInsert();
-//    }
-
-
-
-    public String update(String id, String name, String lop, String gt, String bir, String idup) {
-//        String UpdateData="UPDATE " +TABLE+"   VALUES ('"+id+"', '"+tilte+"', '"+author+"','"+price+"'), WHERE " + KEY_ID + "='" + idup + "'";
-        String UpdateData = "UPDATE " + TABLE + " SET " + KEY_ID_TABLE + "='" + id + "'" +
+//    public String addStu(String id,byte[] anh ,String name, String lop, String gt, String bir) {
+//        String AddData = "INSERT INTO " + TABLE + " VALUES(" +
 //                "null," +
-                " , " + KEY_NAME + "='" + name + "'" +
-                " , " + KEY_CLASS + "='" + lop + "'" +
-                " , " + KEY_GENDER + "='" + gt + "'" +
-                " , " + KEY_BIRTHDAY + "='" + bir + "'" +
-                " WHERE ID='" + idup + "'";//Update
-        return UpdateData;
+//                "'" + id + "'," +
+//                "'" + anh + "'," +
+//                "'" + name + "'," +
+//                "'" + lop + "'," +
+//                "'" + gt + "'," +
+//                "'" + bir + "')";
+////        String AddData = "INSERT INTO " + TABLE + " VALUES('" + classBook.id + "','" + classBook.tilte + "','" + classBook.author + "','" + classBook.price + "')";
+//        return AddData;
+//    }
+    //do dùng byte ten hk dung phuong thuc insert sql duoc
+
+    public void addStu(String id,byte[] anh ,String name, String lop, String gt, String bir) {
+        String sql = "INSERT INTO STUDENT VALUES (NULL, ?, ?, ?,?,?,?)";
+        SQLiteDatabase database = getWritableDatabase();
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.clearBindings();
+        statement.bindString(1, id);
+        statement.bindBlob(2, anh);
+        statement.bindString(3, name);
+        statement.bindString(4, lop);
+        statement.bindString(5, gt);
+        statement.bindString(6, bir);
+        statement.executeInsert();
     }
+
+    public void updateStu(String id,byte[] anh ,String name, String lop, String gt, String bir, String idup) {
+        SQLiteDatabase database = getWritableDatabase();
+
+        String sql = "UPDATE " + TABLE + " SET "
+
+                + KEY_ID + "= ?" +
+                " , " + KEY_IMAGE + "= ?" +
+                " , " + KEY_NAME + "= ?" +
+                " , " + KEY_CLASS + "= ?" +
+                " , " + KEY_GENDER + "= ?" +
+                " , " + KEY_BIRTHDAY + "= ?" +
+                " WHERE ID_TABLE='" + idup + "'";//Update
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.bindString(1, name);
+        statement.bindBlob(2, anh);
+        statement.bindString(3, name);
+        statement.bindString(4, lop);
+        statement.bindString(5, gt);
+        statement.bindString(6, bir);
+        statement.execute();
+        database.close();
+    }
+
+//    public String update(String id,byte[] anh ,String name, String lop, String gt, String bir, String idup) {
+////        String UpdateData="UPDATE " +TABLE+"   VALUES ('"+id+"', '"+tilte+"', '"+author+"','"+price+"'), WHERE " + KEY_ID + "='" + idup + "'";
+//        String UpdateData = "UPDATE " + TABLE + " SET " + KEY_ID_TABLE + "='" + id + "'" +
+////                "null," +
+//                " , " + KEY_ID + "='" + id + "'" +
+//                " , " + KEY_IMAGE + "='" + anh + "'" +
+//                " , " + KEY_NAME + "='" + name + "'" +
+//                " , " + KEY_CLASS + "='" + lop + "'" +
+//                " , " + KEY_GENDER + "='" + gt + "'" +
+//                " , " + KEY_BIRTHDAY + "='" + bir + "'" +
+//                " WHERE ID='" + idup + "'";//Update
+//        return UpdateData;
+//    }
 
     //TABLE CLASS
     public ArrayList<Lop> getDataClass(String name) {

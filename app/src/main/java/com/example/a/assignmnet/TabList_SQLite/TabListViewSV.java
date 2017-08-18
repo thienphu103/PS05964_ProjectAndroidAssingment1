@@ -80,7 +80,7 @@ public class TabListViewSV extends Fragment {
         //AX
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.activity_dialog);
-        database = new SQLite(getContext(), "Student7.sqlite", null, 1);
+        database = new SQLite(getContext(), "Student10.sqlite", null, 1);
         arrayList = new ArrayList<>();
         listView = (ListView) view.findViewById(R.id.listviewbook);
         btnadd = (Button) view.findViewById(R.id.btnAdd);
@@ -162,7 +162,7 @@ public class TabListViewSV extends Fragment {
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                     final int index = i;
                     SinhVien a = new SinhVien();
-                    final String indextext = arrayList.get(index).getId() + "";
+                    final String indextext = arrayList.get(index).getId_table() + "";
 
                     Log.d("indextxt", index + "  " + indextext);
                     txtdialogname = (TextView) dialog.findViewById(R.id.dialogName);
@@ -227,10 +227,10 @@ public class TabListViewSV extends Fragment {
                     btndialogup.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String id = edtdialogID.getText().toString();
-                            String name = edtdialogTilte.getText().toString();
-                            String lop = spinner.getSelectedItem().toString().substring(0, spinner.getSelectedItem().toString().indexOf("-"));
-                            String bir = edtdialogPrice.getText().toString();
+                            final String id = edtdialogID.getText().toString();
+                            final String name = edtdialogTilte.getText().toString();
+                            final String lop = spinner.getSelectedItem().toString().substring(0, spinner.getSelectedItem().toString().indexOf("-"));
+                            final String bir = edtdialogPrice.getText().toString();
                             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                                 @Override
                                 public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -242,8 +242,13 @@ public class TabListViewSV extends Fragment {
                                 }
                             });
                             RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
-                            String gender = Gender = rb.getText().toString();
-                            final String sql = database.update(id, name, lop, gender, bir, indextext);
+                            final String gender = Gender = rb.getText().toString();
+                            BitmapDrawable bitmapDrawable = (BitmapDrawable) imageV.getDrawable();
+                            Bitmap bitmap = bitmapDrawable.getBitmap();
+                            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                            final byte[]Image = outputStream.toByteArray();
+//                            final String sql = database.update(id, name, lop, gender, bir, indextext);
                             if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty() || edtdialogPrice.getText().toString().isEmpty()) {
                                 edtdialogID.setHint("Input ID ");
                                 edtdialogPrice.setHint("Input Birthday Year");
@@ -260,7 +265,8 @@ public class TabListViewSV extends Fragment {
                                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            database.QueryData(sql);
+//                                            database.QueryData(sql);
+                                            database.updateStu(id,Image, name, lop, gender, bir,indextext);
                                             Toast.makeText(getContext(), "Update OK", Toast.LENGTH_SHORT).show();
                                             database.getData("");
                                             adapterSinhVien.notifyDataSetChanged();
@@ -283,8 +289,9 @@ public class TabListViewSV extends Fragment {
                                 arrayList.clear();
                                 adapterSinhVien.notifyDataSetChanged();
                                 showlist("");
+                                dialog.dismiss();
                             }
-                            dialog.dismiss();
+
 
 //              database.QueryData(database.addBook(new ClassBook(0,tilte,author,price)));
                         }
@@ -355,14 +362,14 @@ public class TabListViewSV extends Fragment {
                     }
                 });
                 RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
-
                 String gender = Gender = rb.getText().toString();
                 BitmapDrawable bitmapDrawable = (BitmapDrawable) imageV.getDrawable();
                 Bitmap bitmap = bitmapDrawable.getBitmap();
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                 byte[]Image = outputStream.toByteArray();
-                final String sql = database.addStu(id,Image, name, lop, gender, bir);
+//                final String sql = database.addStu(id,Image, name, lop, gender, bir);
+
                 if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty() || edtdialogPrice.getText().toString().isEmpty()) {
                     edtdialogID.setHint("Input ID ");
                     edtdialogPrice.setHint("Input Birthday Year");
@@ -373,10 +380,11 @@ public class TabListViewSV extends Fragment {
 
                 } else {
                     try {
-//                        database.QueryData(sql);
                         database.addStu(id,Image, name, lop, gender, bir);
+//                        database.QueryData(sql);
                         Toast.makeText(getContext(), "Add OK", Toast.LENGTH_SHORT).show();
                     } catch (Exception ex) {
+                        Log.d("error",ex.toString());
                         AlertErrorDialog();
                     }
 
