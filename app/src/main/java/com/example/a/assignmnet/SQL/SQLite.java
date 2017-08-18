@@ -176,7 +176,7 @@ public class SQLite extends SQLiteOpenHelper {
                 " , " + KEY_BIRTHDAY + "= ?" +
                 " WHERE ID_TABLE='" + idup + "'";//Update
         SQLiteStatement statement = database.compileStatement(sql);
-        statement.bindString(1, name);
+        statement.bindString(1, id);
         statement.bindBlob(2, anh);
         statement.bindString(3, name);
         statement.bindString(4, lop);
