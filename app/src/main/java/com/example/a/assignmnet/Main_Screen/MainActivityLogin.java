@@ -101,69 +101,63 @@ public class MainActivityLogin extends AppCompatActivity {
                     txts2.setTextColor(Color.GREEN);
                 }
                 if (!text.equalsIgnoreCase("") && (!pass.equalsIgnoreCase(""))) {
-                    int usertest=0;
-                    int passtest=0;
+                    int usertest = 0;
+                    int passtest = 0;
                     for (int i = 0; i < arrayList.size(); i++) {
                         if (arrayList.get(i).getUser().equalsIgnoreCase(text)) {
-                            usertest=1;
-                            infouser=arrayList.get(i).getUser();
+                            usertest = 1;
+                            infouser = arrayList.get(i).getUser();
                         }
                         if (arrayList.get(i).getPass().equalsIgnoreCase(pass)) {
-                            passtest=1;
+                            passtest = 1;
                         }
 
                     }
-                    Log.d("Integer",usertest+""+passtest);
-                    if(txt1.getText().toString().equals("admin")&&txt2.getText().toString().equals("123456")) {
-                        admin=1;
+                    Log.d("Integer", usertest + "" + passtest);
+                    if (txt1.getText().toString().equals("admin") && txt2.getText().toString().equals("123456")) {
+                        admin = 1;
                         Toast.makeText(getApplicationContext(), "Login Admin OK", Toast.LENGTH_LONG).show();
                         Toast.makeText(getApplicationContext(), "Welcome Admin !!!", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
+                    } else if ((usertest == 1 && passtest == 1)) {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivityLogin.this);
+
+                        alertDialogBuilder.setMessage("Username and Password OK \n" +
+                                "Please Click Ok Login App");
+                        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                Intent intent = new Intent(MainActivityLogin.this, TabListViewSV_UserSearch.class);
+                                startActivity(intent);
+
+                            }
+                        });
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    } else {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivityLogin.this);
+                        alertDialogBuilder.setMessage("User and Pass Not Correct\n" +
+                                "You want to log in as guest");
+                        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                Intent intent = new Intent(MainActivityLogin.this, TabListViewSV_UserSearch.class);
+                                startActivity(intent);
+
+                            }
+                        });
+                        alertDialogBuilder.setNegativeButton("Try Again", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                            }
+                        });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
                     }
-                        else if((usertest==1&&passtest==1)){
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivityLogin.this);
-
-                            alertDialogBuilder.setMessage("Username and Password OK \n" +
-                                    "Please Click Ok Login App");
-                            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    Intent intent = new Intent(MainActivityLogin.this, TabListViewSV_UserSearch.class);
-                                    startActivity(intent);
-
-                                }
-                            });
-
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.show();
-                        }
-
-                } else {
-
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivityLogin.this);
-
-                    alertDialogBuilder.setMessage("User and Pass Not Correct\n" +
-                            "You want to log in as guest");
-                    alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            Intent intent = new Intent(MainActivityLogin.this, TabListViewSV_UserSearch.class);
-                            startActivity(intent);
-
-                        }
-                    });
-
-                    alertDialogBuilder.setNegativeButton("Try Again", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-
-                        }
-                    });
-
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
                 }
 
             }

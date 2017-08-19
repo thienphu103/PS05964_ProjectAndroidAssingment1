@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.a.assignmnet.R;
+import com.example.a.assignmnet.TabList_SQLite.TabListViewSV_UserSearch;
 
 public class Splashscreen extends Activity {
 
@@ -24,7 +25,7 @@ public class Splashscreen extends Activity {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(Splashscreen.this,MainActivityLogin.class);
+                Intent mainIntent = new Intent(Splashscreen.this,TabListViewSV_UserSearch.class);
                 Splashscreen.this.startActivity(mainIntent);
                 Splashscreen.this.finish();
             }

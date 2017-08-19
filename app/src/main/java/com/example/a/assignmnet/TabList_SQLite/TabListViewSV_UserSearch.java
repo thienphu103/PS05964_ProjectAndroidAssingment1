@@ -1,13 +1,19 @@
 package com.example.a.assignmnet.TabList_SQLite;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +29,7 @@ import android.widget.TextView;
 
 import com.example.a.assignmnet.Adapter.AdapterSinhVien;
 import com.example.a.assignmnet.Class.SinhVien;
+import com.example.a.assignmnet.Main_Screen.MainActivityLogin;
 import com.example.a.assignmnet.R;
 import com.example.a.assignmnet.SQL.SQLite;
 
@@ -56,7 +63,7 @@ public class TabListViewSV_UserSearch extends AppCompatActivity {
     ImageView imageV;
     Bitmap imagebipmap;
     TextView txtSBL;
-    String query="";
+    String query = "";
 
 
     @Nullable
@@ -65,6 +72,9 @@ public class TabListViewSV_UserSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view_student_user_search);
         //AX
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("FPT Search Info Student");
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.activity_dialog);
         database = new SQLite(TabListViewSV_UserSearch.this, "Student10.sqlite", null, 1);
@@ -89,10 +99,10 @@ public class TabListViewSV_UserSearch extends AppCompatActivity {
 //        mIntent.putExtra("studentbyclass", value);
 //        String value = getIntent().getExtras().getString("studentbyclass");
 //        txtSBL.setText("PS0" + value);
-        if(edtsearch.getText().toString().isEmpty()){
-            arrayList = database.getSearchStudentCustom("NAME","ahihi");
-        }else{
-            arrayList = database.getSearchStudentCustom(query,edtsearch.getText().toString());
+        if (edtsearch.getText().toString().isEmpty()) {
+            arrayList = database.getSearchStudentCustom("NAME", "ahihi");
+        } else {
+            arrayList = database.getSearchStudentCustom(query, edtsearch.getText().toString());
         }
 
         adapterSinhVien = new AdapterSinhVien(TabListViewSV_UserSearch.this, R.layout.info_sv, arrayList);
@@ -102,21 +112,21 @@ public class TabListViewSV_UserSearch extends AppCompatActivity {
         list.add("Search Student By Name");
         list.add("Search Student By ID");
         list.add("Search Student By Class");
-        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,list);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                int index=i;
-               if(i==0){
-                  query="NAME";
-               }
-                if(i==1){
-                    query="ID";
+                int index = i;
+                if (i == 0) {
+                    query = "NAME";
                 }
-                if(i==2){
-                    query="CLASS";
+                if (i == 1) {
+                    query = "ID";
+                }
+                if (i == 2) {
+                    query = "CLASS";
                 }
             }
 
@@ -138,10 +148,10 @@ public class TabListViewSV_UserSearch extends AppCompatActivity {
                 arrayList.clear();
                 adapterSinhVien.notifyDataSetChanged();
 //                database.getSearchBook("");
-                if(edtsearch.getText().toString().isEmpty()){
-                    arrayList = database.getSearchStudentCustom("NAME","zXRychVHHCyijkBBLK");//khong cho hien thi toan bo danh sach student
-                }else{
-                    arrayList = database.getSearchStudentCustom(query,edtsearch.getText().toString());
+                if (edtsearch.getText().toString().isEmpty()) {
+                    arrayList = database.getSearchStudentCustom("NAME", "zXRychVHHCyijkBBLK");//khong cho hien thi toan bo danh sach student
+                } else {
+                    arrayList = database.getSearchStudentCustom(query, edtsearch.getText().toString());
                 }
 //                Toast.makeText(getContext(), "Search OK", Toast.LENGTH_SHORT).show();
 
@@ -152,6 +162,45 @@ public class TabListViewSV_UserSearch extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(TabListViewSV_UserSearch.this);
+            builder.setTitle("Sign In");
+            builder.setMessage("Do You Want To Sign Tn?  ");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(TabListViewSV_UserSearch.this, MainActivityLogin.class);
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            builder.show();
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 }
 //        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

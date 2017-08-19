@@ -100,7 +100,7 @@ public class TabListViewSVbyClass extends AppCompatActivity {
         Intent mIntent = new Intent(this, MainActivity.class);
         mIntent.putExtra("studentbyclass", value);
         String value = getIntent().getExtras().getString("studentbyclass");
-        txtSBL.setText("PS0" + value);
+        txtSBL.setText("Student in Class: PT" + value);
         arrayList = database.getSearchStudentByClass(value);
         adapterSinhVien = new AdapterSinhVien(TabListViewSVbyClass.this, R.layout.info_sv, arrayList);
         listView.setAdapter(adapterSinhVien);
@@ -150,9 +150,9 @@ public class TabListViewSVbyClass extends AppCompatActivity {
                     }
                 });
                 spinner = (Spinner) dialog.findViewById(R.id.spinner);
-                edtdialogID.setText("");
-                edtdialogPrice.setText("");
-                edtdialogTilte.setText("");
+                edtdialogID.setText(arrayList.get(index).getId());
+                edtdialogPrice.setText(arrayList.get(index).getBirthday());
+                edtdialogTilte.setText(arrayList.get(index).getName());
                 List<Lop> list = new ArrayList<>();
                 databaseclass = new SQLite(TabListViewSVbyClass.this, "Class3.sqlite", null, 1);
                 list = databaseclass.getDataClassSpinner("");

@@ -168,7 +168,7 @@ public class TabListViewClass extends Fragment {
                         }
 
                     });
-                    builder.setPositiveButton("Edit % Delete", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("Edit & Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -184,6 +184,8 @@ public class TabListViewClass extends Fragment {
                             btndialogdel.setVisibility(View.VISIBLE);
                             dialog.setTitle("Update and Delete");
                             txtdialogname.setText(arrayList.get(index).getId());
+                            edtdialogID.setText(arrayList.get(index).getId());
+                            edtdialogTilte.setText(arrayList.get(index).getName());
                             btndialogdel.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -220,6 +222,7 @@ public class TabListViewClass extends Fragment {
                                 public void onClick(View view) {
                                     String id = edtdialogID.getText().toString();
                                     String tilte = edtdialogTilte.getText().toString();
+
                                     radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                                         @Override
                                         public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -234,6 +237,7 @@ public class TabListViewClass extends Fragment {
 
                                     String gender = Gender = rb.getText().toString();
                                     final String sql = database.updateClass(id, tilte, indextext);
+
                                     if (edtdialogID.getText().toString().isEmpty() || edtdialogTilte.getText().toString().isEmpty()) {
                                         edtdialogID.setHint("Input ID ");
                                         edtdialogTilte.setHint("Input Name");
@@ -244,6 +248,7 @@ public class TabListViewClass extends Fragment {
                                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                             builder.setTitle("Update");
                                             builder.setMessage("Can You Update " + arrayList.get(index).getName() + " to " + tilte + "  class?");
+
                                             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -295,8 +300,7 @@ public class TabListViewClass extends Fragment {
         listView.setAdapter(adapterLop);
         return view;
     }
-
-
+    
     public void DialogBook() {
         dialog.setTitle("Add Class");
         edtdialogID = (EditText) dialog.findViewById(R.id.dialogID);
@@ -308,8 +312,8 @@ public class TabListViewClass extends Fragment {
         radioButtonMale = (RadioButton) dialog.findViewById(R.id.radioButton_male);
         radioButtonFemale = (RadioButton) dialog.findViewById(R.id.radioButton_female);
         radioButtonFemale = (RadioButton) dialog.findViewById(R.id.radioButton_female);
-        edtdialogID.setText("");
-        edtdialogPrice.setText("");
+//        edtdialogID.setText("");
+//        edtdialogPrice.setText("");
         radioGroup.setVisibility(View.INVISIBLE);
         radioButtonMale.setVisibility(View.INVISIBLE);
         radioButtonFemale.setVisibility(View.INVISIBLE);

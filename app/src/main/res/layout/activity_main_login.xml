@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bgg"
     android:id="@+id/container"
+
     tools:context="com.example.a.assignmnet.Main_Screen.MainActivityLogin">
 
     <RelativeLayout

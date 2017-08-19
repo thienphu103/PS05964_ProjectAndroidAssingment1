@@ -203,9 +203,9 @@ public class TabListViewSV extends Fragment {
                         }
                     });
                     spinner = (Spinner) dialog.findViewById(R.id.spinner);
-                    edtdialogID.setText("");
-                    edtdialogPrice.setText("");
-                    edtdialogTilte.setText("");
+                    edtdialogID.setText(arrayList.get(index).getId());
+                    edtdialogPrice.setText(arrayList.get(index).getBirthday());
+                    edtdialogTilte.setText(arrayList.get(index).getName());
                     List<Lop> list = new ArrayList<>();
                     databaseclass = new SQLite(getContext(), "Class3.sqlite", null, 1);
                     list = databaseclass.getDataClassSpinner("");
@@ -320,9 +320,9 @@ public class TabListViewSV extends Fragment {
         spinner = (Spinner) dialog.findViewById(R.id.spinner);
         imageButton = (ImageButton) dialog.findViewById(R.id.btnImage);
         imageV = (ImageView) dialog.findViewById(imageView);
-        edtdialogID.setText("");
-        edtdialogPrice.setText("");
-        edtdialogTilte.setText("");
+//        edtdialogID.setText("");
+//        edtdialogPrice.setText("");
+//        edtdialogTilte.setText("");
         List<Lop> list = new ArrayList<>();
         databaseclass = new SQLite(getContext(), "Class3.sqlite", null, 1);
         list = databaseclass.getDataClassSpinner("");
