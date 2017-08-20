@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Assignmnet</string>
+    <string name="app_name">FPT Manager</string>
     <string name="title_activity_navigation">NavigationActivity</string>
     <string
         id="@+id/string_user"
